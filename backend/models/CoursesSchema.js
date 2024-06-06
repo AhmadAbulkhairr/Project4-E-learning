@@ -7,5 +7,5 @@ const courseSchema = new mongoose.Schema({
     teachers: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' },
   });
   
-  module.exports = mongoose.model('Course', classSchema);
+  module.exports = mongoose.model('Course', courseSchema);
   
