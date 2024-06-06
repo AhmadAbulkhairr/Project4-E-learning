@@ -3,10 +3,9 @@ const mongoose = require("mongoose");
 
 const subjectSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    class: { type: mongoose.Schema.Types.ObjectId, ref: 'Class' },
-    //materials: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Material' }],
-
-
+    grade: { type: mongoose.Schema.Types.ObjectId, ref: 'Grade', required: true },
+    materials: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Material' }],
+    created_at: { type: Date, default: Date.now }
   });
   
   module.exports = mongoose.model('Subject', subjectSchema);
