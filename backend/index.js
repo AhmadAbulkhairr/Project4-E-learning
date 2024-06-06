@@ -13,6 +13,8 @@ app.use(express.json());
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
 
+const teacherRouter = require("./routes/teachers");
+app.use("/users", teacherRouter);
 
 // Handles any other endpoints [unassigned - endpoints]
 app.use("*", (req, res) => res.status(404).json("NO content at this path"));
