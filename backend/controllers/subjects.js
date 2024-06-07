@@ -1,5 +1,6 @@
 const Subject = require('../models/SubjectSchema');
 const Grade = require('../models/GradesSchema');
+//find a way to update the array in grade too
 
 // Get all subjects
 const getAllSubjects = async (req, res) => {
@@ -19,7 +20,7 @@ const getAllSubjects = async (req, res) => {
 };
 
 // Get subjects by grade ID
-const getSubjectsByGradeId = async (req, res) => {
+/*const getSubjectsByGradeId = async (req, res) => {
   const { gradeId } = req.params;
   try {
     const subjects = await Subject.find({ grade: gradeId }).populate('grade');
@@ -40,7 +41,7 @@ const getSubjectsByGradeId = async (req, res) => {
       error: error.message,
     });
   }
-};
+};*/
 
 // Add a new subject
 const addSubject = async (req, res) => {
@@ -73,6 +74,10 @@ const { name, gradeId } = req.body;
 
     await subject.save();
 
+    /* can i add here   grade.subjects.push(subject._id);
+    await grade.save() */
+
+
     res.status(201).json({
       success: true,
       message: 'Subject added successfully',
@@ -92,12 +97,12 @@ const updateSubject = async (req, res) => {
   const { id } = req.params;
   const { name, gradeId, materialIds } = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(gradeId) || !Array.isArray(materialIds) || !materialIds.every(id => mongoose.Types.ObjectId.isValid(id))) {
+  /*if (!mongoose.Types.ObjectId.isValid(gradeId) || !Array.isArray(materialIds) || !materialIds.every(id => mongoose.Types.ObjectId.isValid(id))) {
     return res.status(400).json({
       success: false,
       message: 'Invalid grade ID or material IDs',
     });
-  }
+  }*/
 
   try {
     const grade = await Grade.findById(gradeId);
@@ -158,9 +163,36 @@ const deleteSubject = async (req, res) => {
   }
 };
 
+const getAllMaterialsBySubjectId = async (req,res) => {
+   
+        const { id } = req.params;
+      
+        try {
+          const subject = await Subject.findById(id).populate('materials');
+          if (!subject) {
+            return res.status(404).json({
+              success: false,
+              message: 'subject not found',
+            });
+          }
+          res.status(200).json({
+            success: true,
+            materials: subject.materials,
+          });
+        } catch (error) {
+          res.status(500).json({
+            success: false,
+            message: 'Server Error',
+            error: error.message,
+          });
+        }
+      };
+      
+
 module.exports = {
   getAllSubjects,
-  getSubjectsByGradeId,
+  //getSubjectsByGradeId,
+  getAllMaterialsBySubjectId,
   addSubject,
   updateSubject,
   deleteSubject,
