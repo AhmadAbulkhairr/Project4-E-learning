@@ -19,6 +19,9 @@ app.use("/teachers", teacherRouter);
 const gradeRouter = require('./routes/grades')
 app.use('/grades',gradeRouter)
 
+const subjectRouter = require('./routes/subjects')
+app.use('/subjects',subjectRouter)
+
 // Handles any other endpoints [unassigned - endpoints]
 app.use("*", (req, res) => res.status(404).json("NO content at this path"));
 

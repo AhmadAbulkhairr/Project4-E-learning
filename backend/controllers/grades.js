@@ -1,5 +1,4 @@
-const Grade = require("../models/grade");
-const Subject = require("../models/subject");
+const Grade = require("../models/GradesSchema");
 
 // Get all grades
 const getAllGrades = async (req, res) => {
