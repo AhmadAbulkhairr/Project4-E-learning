@@ -158,6 +158,31 @@ const getTeacher = async (req, res) => {
     }
   };
   
+  const getTeacherByUserId = (req,res) => {
+const userID = req.token.userId
+
+Teacher.find({user:userID}).then((result)=>{
+    if (!result){
+        return res.status(404).json({
+            success: false,
+            message: `this userID is not a teacher`,
+          });
+    }
+    res.status(200).json({
+        success: true,
+        message: `All the articles`,
+        userId: userID,
+        Teacher: result,
+      });
+}).catch((err)=>{
+    res.status(500).json({
+        success: false,
+        message: `Server Error`,
+        err: err.message,
+      });
+})
+
+}
 
 
 
@@ -166,5 +191,5 @@ module.exports = {
     getAllTeachers,
     getTeacher,
     updateTeacher,
-    deleteTeacher,
+    deleteTeacher,getTeacherByUserId
   };

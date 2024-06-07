@@ -19,7 +19,7 @@ materialRouter.put('/updateMaterial/:id', authentication, authorization('Teacher
 materialRouter.delete('/deleteMaterial/:id', authentication, authorization('Admin'), deleteMaterial);
 
 materialRouter.post(
-    "/:id/reviews",
+    "/:id/reviews",authentication,
     createNewReview
   );
 
