@@ -35,7 +35,7 @@ const teacherRegister = async (req, res) => {
         age,
         subject: subjectId,
         materials: [],
-        grades: [],
+        //grade
       });
   
       await teacher.save();
@@ -58,7 +58,7 @@ const teacherRegister = async (req, res) => {
 
 const getAllTeachers = async (req,res) => {
     try {
-        const allTeachers = await Teacher.find().populate('materials',"-_id -__v").populate('subject',"-_id -__v").populate('grades',"-_id -__v").populate("user","-_id -__v")
+        const allTeachers = await Teacher.find().populate('materials',"-_id -__v").populate('subject',"-_id -__v").populate('grade',"-_id -__v").populate("user","-_id -__v")
 
         
     if(!allTeachers){
@@ -85,7 +85,7 @@ const getTeacher = async (req, res) => {
     const { id } = req.params;
   
     try {
-      const teacher = await Teacher.findById(id).populate('user',"-_id -__v").populate('subject',"-_id -__v").populate('grades',"-_id -__v").populate('materials',"-_id -__v")
+      const teacher = await Teacher.findById(id).populate('user',"-_id -__v").populate('subject',"-_id -__v").populate('grade',"-_id -__v").populate('materials',"-_id -__v")
       if (!teacher) {
         return res.status(404).json({
           success: false,
@@ -111,7 +111,7 @@ const getTeacher = async (req, res) => {
     const updateData = req.body;
   
     try {
-      const teacher = await Teacher.findByIdAndUpdate(id, updateData, { new: true }).populate('user',"-_id -__v").populate('subject',"-_id -__v").populate('grades',"-_id -__v").populate('materials',"-_id -__v")
+      const teacher = await Teacher.findByIdAndUpdate(id, updateData, { new: true }).populate('user',"-_id -__v").populate('subject',"-_id -__v").populate('grade',"-_id -__v").populate('materials',"-_id -__v")
       if (!teacher) {
         return res.status(404).json({
           success: false,
