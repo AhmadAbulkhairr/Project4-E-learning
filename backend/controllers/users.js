@@ -76,7 +76,7 @@ const register = (req, res) => {
           }
           const payload = {
             userId: result._id,
-            student: result.name,
+            user: result.name,
             role: result.role,
           };
   

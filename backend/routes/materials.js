@@ -6,7 +6,7 @@ const {
   getAllMaterials,
   getMaterialById,
   updateMaterial,
-  deleteMaterial,
+  deleteMaterial,createNewReview
 } = require('../controllers/materials');
 
 const authentication = require('../middleware/authen');
@@ -17,5 +17,10 @@ materialRouter.get('/allMaterials', authentication, getAllMaterials);
 materialRouter.get('/material/:id', authentication, getMaterialById);
 materialRouter.put('/updateMaterial/:id', authentication, authorization('Teacher', 'Admin'), updateMaterial);
 materialRouter.delete('/deleteMaterial/:id', authentication, authorization('Admin'), deleteMaterial);
+
+materialRouter.post(
+    "/:id/reviews",
+    createNewReview
+  );
 
 module.exports = materialRouter;
