@@ -1,7 +1,10 @@
-// This function checks if the user has a permission the passed permission
-const authorization = (string) => {
+const authorization = (roles) => {
     return (req, res, next) => {
-      if (!req.token.role.role.includes(string)) {
+      if (!Array.isArray(roles)) {
+        roles = [roles];
+      }
+  
+      if (!roles.includes(req.token.role.role)) {
         return res.status(403).json({
           success: false,
           message: `Unauthorized`,
