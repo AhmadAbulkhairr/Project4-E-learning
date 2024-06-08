@@ -52,11 +52,7 @@ const addMaterial = async (req, res) => {
   module.exports = { addMaterial };
   
 const getAllMaterialsBySubjectId = async (req, res) => {
-    // Extracting 'id' from route parameters, this is the Subject ID
     const { id } = req.params;
-  
-    // Extracting 'teacherName', 'contentType', 'page', and 'limit' from query parameters
-    // Providing default values for 'page' (1) and 'limit' (10) if not provided
     const { teacherName, contentType, page = 1, limit = 5 } = req.query;
   
     try {
