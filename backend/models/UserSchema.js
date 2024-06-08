@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema ({
         password: { type: String, required: true, minlength: 6 },
 
         role: { type: mongoose.Schema.Types.ObjectId, ref: 'Role', required: true },
+        myCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
         created_at: { type: Date, default: Date.now }
 
 })
