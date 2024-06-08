@@ -369,3 +369,17 @@ module.exports = {
   updateMaterial,
   deleteMaterial,
 };
+
+
+const response = await axios.get(`/api/subject/${subjectId}/materials`, {
+    params: {
+      teacherName: filters.teacherName, // Optional filter by teacher name
+      contentType: filters.contentType, // Optional filter by content type (e.g., 'video' or 'document')
+      page, // Pagination: which page to fetch
+      limit, // Pagination: number of items per page
+    },
+    headers: {
+      // Include the authentication token in the headers
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+  });

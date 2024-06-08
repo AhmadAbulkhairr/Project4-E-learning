@@ -12,7 +12,7 @@ const {
 const authentication = require('../middleware/authen');
 const authorization = require('../middleware/author');
 
-subjectRouter.get('/allSubjects', getAllSubjects);
+//subjectRouter.get('/allSubjects', getAllSubjects);
 subjectRouter.get('/grade/:gradeId/subjects', getSubjectsByGradeId);
 
 subjectRouter.post('/addSubject', authentication, authorization('Admin'), addSubject);

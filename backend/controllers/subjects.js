@@ -44,55 +44,50 @@ const getAllSubjects = async (req, res) => {
 };*/
 
 // Add a new subject
+
 const addSubject = async (req, res) => {
-const { name, gradeId } = req.body;
-
-// find a solution to handle gradId // try grade name and grade.find ({name})
-
-
- /* if (!mongoose.Types.ObjectId.isValid(gradeId) || !Array.isArray(materialIds) || !materialIds.every(id => mongoose.Types.ObjectId.isValid(id))) {
-    return res.status(400).json({
-      success: false,
-      message: 'Invalid grade ID or material IDs',
-    });
-  }  */
-
-  try {
-    const grade = await Grade.findById(gradeId);
-    if (!grade) {
-      return res.status(404).json({
+    const { name, gradeName } = req.body;
+  
+    try {
+      // Find the grade by name
+      const grade = await Grade.findOne({ name: gradeName });
+      if (!grade) {
+        return res.status(404).json({
+          success: false,
+          message: 'Grade not found',
+        });
+      }
+  
+      // Create new subject
+      const newSubject = new Subject({
+        name,
+        grade: grade._id,
+      });
+  
+      // Save the new subject
+      const savedSubject = await newSubject.save();
+  
+      // Update the grade's subjects array
+      grade.subjects.push(savedSubject._id);
+      await grade.save();
+  
+      res.status(201).json({
+        success: true,
+        message: 'Subject added successfully',
+        subject: savedSubject,
+      });
+    } catch (err) {
+      res.status(500).json({
         success: false,
-        message: 'Grade not found',
+        message: 'Server Error',
+        error: err.message,
       });
     }
-
-    const subject = new Subject({
-      name,
-      grade: gradeId,
-      materials: [],
-    });
-
-    await subject.save();
-
-    /* can i add here   grade.subjects.push(subject._id);
-    await grade.save() */
-
-
-    res.status(201).json({
-      success: true,
-      message: 'Subject added successfully',
-      subject,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Server Error',
-      error: error.message,
-    });
-  }
-};
+  };
 
 // Update a subject by ID
+
+//most likely i will not use it 
 const updateSubject = async (req, res) => {
   const { id } = req.params;
   const { name, gradeId, materialIds } = req.body;

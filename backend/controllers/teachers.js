@@ -4,7 +4,8 @@ const User = require('../models/UserSchema')
 
 
 const teacherRegister = async (req, res) => {
-    const { name, email, password, phoneNumber, age, subjectId } = req.body;
+    const { name, email, password, phoneNumber, age, subjectName
+        ,gradeName } = req.body;
   
     try {
       // Find the teacher role
@@ -27,16 +28,23 @@ const teacherRegister = async (req, res) => {
       });
   
       await user.save();
+      const subject = await Subject.findOne({ name: subjectName });
+      if (!subject) {
+        return res.status(404).json({ success: false, message: 'Subject not found' });
+      }
   
-      // Create the teacher
+      const grade = await Grade.findOne({ name: gradeName });
+      if (!grade) {
+        return res.status(404).json({ success: false, message: 'Grade not found' });
+      }      // Create the teacher
       const teacher = new Teacher({
         user: user._id,
         phoneNumber,
         age,
-        subject: subjectId,
+        subject: subject._id,
         materials: [],
-        //grade
-      });
+grade :  grade._id,
+    });
   
       await teacher.save();
   

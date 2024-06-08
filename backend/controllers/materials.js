@@ -3,54 +3,121 @@ const Material = require('../models/MaterialSchema');
 const Subject = require('../models/SubjectSchema');
 const Grade = require('../models/GradesSchema');
 const Teacher = require("../models/TeacherSchema");
-
 const addMaterial = async (req, res) => {
-  const { name, subjectId, gradeId, teacherId, contentType, contentUrl } = req.body;
-
-  try {
-    const subject = await Subject.findById(subjectId);
-    if (!subject) {
-      return res.status(404).json({ success: false, message: 'Subject not found' });
+    const { name, subjectName, gradeName, teacherName, contentType, contentUrl } = req.body;
+  
+    try {
+      const subject = await Subject.findOne({ name: subjectName });
+      if (!subject) {
+        return res.status(404).json({ success: false, message: 'Subject not found' });
+      }
+  
+      const grade = await Grade.findOne({ name: gradeName });
+      if (!grade) {
+        return res.status(404).json({ success: false, message: 'Grade not found' });
+      }
+  
+      const teacher = await Teacher.findOne({ name: teacherName });
+      if (!teacher) {
+        return res.status(404).json({ success: false, message: 'Teacher not found' });
+      }
+  
+      const material = new Material({
+        name,
+        subject: subject._id,
+        grade: grade._id,
+        teacher: teacher._id,
+        contentType,
+        contentUrl
+      });
+  
+      await material.save();
+  
+      subject.materials.push(material._id);
+      teacher.materials.push(material._id);
+  
+      await subject.save();
+      await teacher.save();
+  
+      res.status(201).json({
+        success: true,
+        message: 'Material created successfully',
+        material
+      });
+    } catch (error) {
+      res.status(500).json({ success: false, message: 'Server Error', error: error.message });
     }
-
-    const grade = await Grade.findById(gradeId);
-    if (!grade) {
-      return res.status(404).json({ success: false, message: 'Grade not found' });
+  };
+  
+  module.exports = { addMaterial };
+  
+const getAllMaterialsBySubjectId = async (req, res) => {
+    // Extracting 'id' from route parameters, this is the Subject ID
+    const { id } = req.params;
+  
+    // Extracting 'teacherName', 'contentType', 'page', and 'limit' from query parameters
+    // Providing default values for 'page' (1) and 'limit' (10) if not provided
+    const { teacherName, contentType, page = 1, limit = 5 } = req.query;
+  
+    try {
+      const subject = await Subject.findById(id);
+      if (!subject) {
+        return res.status(404).json({
+          success: false,
+          message: 'Subject not found',
+        });
+      }
+  
+      let query = { subject: id };
+  
+      if (teacherName) {
+        const teachers = await Teacher.find({ name: new RegExp(teacherName, 'i') });
+        if (teachers.length > 0) {
+          const teacherIds = teachers.map(teacher => teacher._id);
+          query.teacher = { $in: teacherIds };
+        } else {
+          return res.status(404).json({
+            success: false,
+            message: 'No materials found for the specified teacher',
+          });
+        }
+      }
+  
+      if (contentType) {
+        query.contentType = contentType;
+      }
+  
+      const skip = (page - 1) * limit;
+  
+      const materials = await Material.find(query)
+        .populate('teacher', 'name')
+        .populate('subject', 'name')
+        .populate('grade', 'name')
+        .skip(skip)
+        .limit(Number(limit));
+  
+      const totalCount = await Material.countDocuments(query);
+  
+      res.status(200).json({
+        success: true,
+        materials,
+        pagination: {
+          totalItems: totalCount,
+          totalPages: Math.ceil(totalCount / limit),
+          currentPage: page,
+          itemsPerPage: limit,
+        },
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Server Error',
+        error: error.message,
+      });
     }
-
-    const teacher = await Teacher.findById(teacherId);
-    if (!teacher) {
-      return res.status(404).json({ success: false, message: 'Teacher not found' });
-    }
-
-    const material = new Material({
-      name,
-      subject: subject._id,
-      grade: grade._id,
-      teacher: teacher._id,
-      contentType,
-      contentUrl
-    });
-
-    await material.save();
-
-    subject.materials.push(material._id);
-    teacher.materials.push(material._id);
-
-    await subject.save();
-    await teacher.save();
-
-    res.status(201).json({
-      success: true,
-      message: 'Material created successfully',
-      material
-    });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Server Error', error: error.message });
-  }
-};
-
-const getAllMaterials = async (req, res) => {
+  };
+  
+/*const getAllMaterials = async (req, res) => {
   try {
     const materials = await Material.find()
       .populate('subject', 'name')
@@ -81,7 +148,7 @@ const getMaterialById = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server Error', error: error.message });
   }
-};
+};*/
 
 const updateMaterial = async (req, res) => {
   const { id } = req.params;
@@ -125,8 +192,9 @@ const deleteMaterial = async (req, res) => {
 
 module.exports = {
   addMaterial,
-  getAllMaterials,
-  getMaterialById,
+  //getAllMaterials,
+ // getMaterialById,
+ getAllMaterialsBySubjectId,
   updateMaterial,
   deleteMaterial,
 };
