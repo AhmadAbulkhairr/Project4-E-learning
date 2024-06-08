@@ -3,6 +3,10 @@ const Material = require('../models/MaterialSchema');
 const Subject = require('../models/SubjectSchema');
 const Grade = require('../models/GradesSchema');
 const Teacher = require("../models/TeacherSchema");
+
+
+
+
 const addMaterial = async (req, res) => {
     const { name, subjectName, gradeName, teacherName, contentType, contentUrl } = req.body;
   
@@ -185,6 +189,34 @@ const deleteMaterial = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server Error', error: error.message });
   }
 };
+
+
+const getAllMaterialsBySubjectId = async (req,res) => {
+   
+    const { id } = req.params;
+  
+    try {
+      const subject = await Subject.findById(id).populate('materials');
+      if (!subject) {
+        return res.status(404).json({
+          success: false,
+          message: 'subject not found',
+        });
+      }
+      res.status(200).json({
+        success: true,
+        materials: subject.materials,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Server Error',
+        error: error.message,
+      });
+    }
+  };
+  
+
 
 module.exports = {
   addMaterial,

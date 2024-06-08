@@ -6,8 +6,8 @@ const jwt = require("jsonwebtoken");
 const register = (req, res) => {
     const { name,
         email,
-        password,
-        role} = req.body;
+        password
+        } = req.body;
 
         if (!name || !email || !password ) {
             return res.status(400).json({
@@ -26,8 +26,7 @@ const register = (req, res) => {
     const user = new usersModel({name,
         email,
         password,
-    //static    role
-    });
+role:"6664a1c3749506adedc47b0e"    });
   
     user
       .save()
@@ -100,6 +99,29 @@ const register = (req, res) => {
   };
   
 
+  const userInfo = async (req,res) => {
+    const userId = req.token.userId
+
+try {
+
+   const user = await usersModel.findById(userId)
+
+   res.status(200).json({
+    success: true,
+    message: `user Info`,
+    user: user,
+   })
+
+}
+catch(err){
+    res.status(500).json({
+
+    success: false,
+    message: `Server Error`,
+    err: err.message,
+    })
+}
+  }
 
 
 
@@ -111,5 +133,6 @@ const register = (req, res) => {
 module.exports = {
     register,
     login,
+    userInfo
   };
   

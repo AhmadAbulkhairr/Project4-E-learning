@@ -7,7 +7,7 @@ const courseSchema = new mongoose.Schema({
     grade: { type: mongoose.Schema.Types.ObjectId, ref: 'Grade', required: true },
 
     teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' },
-    price: { type: string , required:true}
+    price: { type: String , required:true}
   });
   
   module.exports = mongoose.model('Course', courseSchema);

@@ -3,6 +3,7 @@ const Grade = require('../models/GradesSchema');
 //find a way to update the array in grade too
 
 // Get all subjects
+//mesh moheeem
 const getAllSubjects = async (req, res) => {
   try {
     const subjects = await Subject.find().populate('grade');
@@ -20,10 +21,10 @@ const getAllSubjects = async (req, res) => {
 };
 
 // Get subjects by grade ID
-/*const getSubjectsByGradeId = async (req, res) => {
+const getSubjectsByGradeId = async (req, res) => {
   const { gradeId } = req.params;
   try {
-    const subjects = await Subject.find({ grade: gradeId }).populate('grade');
+    const subjects = await Grade.findById(gradeId).populate('subject');
     if (!subjects.length) {
       return res.status(404).json({
         success: false,
@@ -41,7 +42,7 @@ const getAllSubjects = async (req, res) => {
       error: error.message,
     });
   }
-};*/
+};
 
 // Add a new subject
 
@@ -68,7 +69,7 @@ const addSubject = async (req, res) => {
       const savedSubject = await newSubject.save();
   
       // Update the grade's subjects array
-      grade.subjects.push(savedSubject._id);
+      grade.subject.push(savedSubject._id);
       await grade.save();
   
       res.status(201).json({
@@ -89,104 +90,115 @@ const addSubject = async (req, res) => {
 
 //most likely i will not use it 
 const updateSubject = async (req, res) => {
-  const { id } = req.params;
-  const { name, gradeId, materialIds } = req.body;
-
-  /*if (!mongoose.Types.ObjectId.isValid(gradeId) || !Array.isArray(materialIds) || !materialIds.every(id => mongoose.Types.ObjectId.isValid(id))) {
-    return res.status(400).json({
-      success: false,
-      message: 'Invalid grade ID or material IDs',
-    });
-  }*/
-
-  try {
-    const grade = await Grade.findById(gradeId);
-    if (!grade) {
-      return res.status(404).json({
-        success: false,
-        message: 'Grade not found',
-      });
-    }
-
-    const subject = await Subject.findByIdAndUpdate(id, { name, grade: gradeId, materials: materialIds }, { new: true });
-
-    if (!subject) {
-      return res.status(404).json({
-        success: false,
-        message: 'Subject not found',
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: 'Subject updated successfully',
-      subject,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Server Error',
-      error: error.message,
-    });
-  }
-};
-
-// Delete a subject by ID
-const deleteSubject = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const subject = await Subject.findByIdAndDelete(id);
-
-    if (!subject) {
-      return res.status(404).json({
-        success: false,
-        message: 'Subject not found',
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: 'Subject deleted successfully',
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Server Error',
-      error: error.message,
-    });
-  }
-};
-
-const getAllMaterialsBySubjectId = async (req,res) => {
-   
-        const { id } = req.params;
-      
-        try {
-          const subject = await Subject.findById(id).populate('materials');
-          if (!subject) {
-            return res.status(404).json({
-              success: false,
-              message: 'subject not found',
-            });
-          }
-          res.status(200).json({
-            success: true,
-            materials: subject.materials,
-          });
-        } catch (error) {
-          res.status(500).json({
+    const { id } = req.params;
+    const { name, gradeName } = req.body;
+  
+    try {
+      const subject = await Subject.findById(id);
+  
+      if (!subject) {
+        return res.status(404).json({
+          success: false,
+          message: 'Subject not found',
+        });
+      }
+  
+      if (gradeName) {
+        const newGrade = await Grade.findOne({ name: gradeName });
+        if (!newGrade) {
+          return res.status(404).json({
             success: false,
-            message: 'Server Error',
-            error: error.message,
+            message: 'Grade not found',
           });
         }
-      };
-      
+  
+        // If the grade has changed, update the grade references
+        if (!subject.grade.equals(newGrade._id)) {
+          const oldGrade = await Grade.findById(subject.grade);
+          if (oldGrade) {
+            // Remove the subject from the old grade's subjects array
+            const oldIndex = oldGrade.subjects.indexOf(subject._id);
+            if (oldIndex > -1) {
+              oldGrade.subjects.splice(oldIndex, 1);
+              await oldGrade.save();
+            }
+          }
+  
+          // Add the subject to the new grade's subjects array
+          newGrade.subjects.push(subject._id);
+          await newGrade.save();
+  
+          // Update the subject's grade
+          subject.grade = newGrade._id;
+        }
+      }
+  
+      // Update the subject's name if provided
+      if (name) {
+        subject.name = name;
+      }
+  
+      await subject.save();
+  
+      res.status(200).json({
+        success: true,
+        message: 'Subject updated successfully',
+        subject,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Server Error',
+        error: error.message,
+      });
+    }
+  };
+  
+  module.exports = { updateSubject };
+  
+const deleteSubject = async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      const subject = await Subject.findById(id);
+  
+      if (!subject) {
+        return res.status(404).json({
+          success: false,
+          message: 'Subject not found',
+        });
+      }
+  
+      const grade = await Grade.findById(subject.grade);
+  
+      if (grade) {
+        const index = grade.subject.indexOf(id);
+        if (index > -1) {
+          grade.subject.splice(index, 1);
+          await grade.save();
+        }
+      }
+  
+      await Subject.findByIdAndDelete(id);
+  
+      res.status(200).json({
+        success: true,
+        message: 'Subject deleted successfully',
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Server Error',
+        error: error.message,
+      });
+    }
+  };
+  
+
 
 module.exports = {
   getAllSubjects,
-  //getSubjectsByGradeId,
+  getSubjectsByGradeId,
   getAllMaterialsBySubjectId,
   addSubject,
   updateSubject,

@@ -383,3 +383,256 @@ const response = await axios.get(`/api/subject/${subjectId}/materials`, {
       Authorization: `Bearer ${localStorage.getItem('token')}`
     }
   });
+//schemas
+
+  const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    trim: true,
+    required: [true, 'Name is required'],
+    minlength: [3, 'Name must be at least 3 characters long'],
+    maxlength: [50, 'Name must be less than 50 characters long']
+  },
+  email: {
+    type: String,
+    required: [true, 'Email is required'],
+    unique: true,
+    lowercase: true,
+    match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address']
+  },
+  password: {
+    type: String,
+    required: [true, 'Password is required'],
+    minlength: [6, 'Password must be at least 6 characters long']
+  },
+  role: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Role',
+    required: [true, 'Role is required']
+  },
+  myCourses: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Course'
+  }],
+  created_at: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+userSchema.pre("save", async function () {
+  if (this.isModified('password')) {
+    this.password = await bcrypt.hash(this.password, 8);
+  }
+});
+
+module.exports = mongoose.model('User', userSchema);
+
+
+const mongoose = require("mongoose");
+
+const courseSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Course name is required'],
+    trim: true,
+    minlength: [3, 'Course name must be at least 3 characters long'],
+    maxlength: [100, 'Course name must be less than 100 characters long']
+  },
+  subject: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Subject',
+    required: [true, 'Subject is required']
+  },
+  teacher: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Teacher',
+    required: [true, 'Teacher is required']
+  },
+  price: {
+    type: Number,
+    required: [true, 'Price is required'],
+    min: [0, 'Price must be a positive number']
+  },
+  created_at: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+module.exports = mongoose.model('Course', courseSchema);
+
+
+const mongoose = require("mongoose");
+
+const materialSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Material name is required'],
+    trim: true,
+    minlength: [3, 'Material name must be at least 3 characters long'],
+    maxlength: [100, 'Material name must be less than 100 characters long']
+  },
+  subject: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Subject',
+    required: [true, 'Subject is required']
+  },
+  grade: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Grade',
+    required: [true, 'Grade is required']
+  },
+  teacher: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Teacher',
+    required: [true, 'Teacher is required']
+  },
+  contentType: {
+    type: String,
+    enum: {
+      values: ['video', 'document'],
+      message: 'Content type must be either video or document'
+    },
+    required: [true, 'Content type is required']
+  },
+  contentUrl: {
+    type: String,
+    required: [true, 'Content URL is required'],
+    match: [/^https?:\/\/[^\s$.?#].[^\s]*$/, 'Please use a valid URL']
+  },
+  reviews: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Review'
+  }],
+  created_at: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+module.exports = mongoose.model('Material', materialSchema);
+
+const mongoose = require("mongoose");
+
+const subjectSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Subject name is required'],
+    trim: true,
+    minlength: [3, 'Subject name must be at least 3 characters long'],
+    maxlength: [100, 'Subject name must be less than 100 characters long']
+  },
+  grade: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Grade',
+    required: [true, 'Grade is required']
+  },
+  materials: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Material'
+  }],
+  created_at: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+module.exports = mongoose.model('Subject', subjectSchema);
+
+const mongoose = require("mongoose");
+
+const gradeSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Grade name is required'],
+    trim: true,
+    minlength: [1, 'Grade name must be at least 1 character long'],
+    maxlength: [50, 'Grade name must be less than 50 characters long']
+  },
+  subjects: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Subject'
+  }],
+  created_at: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+module.exports = mongoose.model('Grade', gradeSchema);
+
+
+const mongoose = require("mongoose");
+
+const teacherSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: [true, 'User reference is required']
+  },
+  phoneNumber: {
+    type: String,
+    required: [true, 'Phone number is required'],
+    match: [/^\d{10}$/, 'Phone number must be 10 digits']
+  },
+  subject: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Subject',
+    required: [true, 'Subject is required']
+  },
+  age: {
+    type: Number,
+    required: [true, 'Age is required'],
+    min: [21, 'Age must be at least 21'],
+    max: [100, 'Age must be less than 100']
+  },
+  materials: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Material'
+  }],
+  grades: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Grade'
+  }],
+  imageUrl: {
+    type: String,
+    match: [/^https?:\/\/[^\s$.?#].[^\s]*$/, 'Please use a valid URL']
+  },
+  created_at: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+module.exports = mongoose.model('Teacher', teacherSchema);
+
+const mongoose = require("mongoose");
+
+const reviewSchema = new mongoose.Schema({
+  review: {
+    type: String,
+    required: [true, 'Review text is required'],
+    trim: true,
+    minlength: [3, 'Review text must be at least 3 characters long'],
+    maxlength: [500, 'Review text must be less than 500 characters long']
+  },
+  reviewer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: [true, 'Reviewer is required']
+  },
+  reviewerName: {
+    type: String,
+    required: [true, 'Reviewer name is required']
+  },
+  created_at: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+module.exports = mongoose.model('Review', reviewSchema);

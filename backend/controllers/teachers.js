@@ -192,6 +192,29 @@ Teacher.find({user:userID}).then((result)=>{
 
 }
 
+const teacherInfo = async (req,res) => {
+    const userId = req.toke.userId
+
+try {
+
+   const user = await Teacher.find({user:userId}).populate('user',"-_id -__v")
+
+   res.status(200).json({
+    success: true,
+    message: `Teacher Info`,
+    user: user,
+   })
+
+}
+catch(err){
+    res.status(500).json({
+
+    success: false,
+    message: `Server Error`,
+    err: err.message,
+    })
+}
+  }
 
 
 module.exports = {
@@ -199,5 +222,5 @@ module.exports = {
     getAllTeachers,
     getTeacher,
     updateTeacher,
-    deleteTeacher,getTeacherByUserId
+    deleteTeacher,getTeacherByUserId,teacherInfo
   };
