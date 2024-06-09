@@ -1,13 +1,12 @@
 
 const usersModel = require("../models/UserSchema");
 const Course = require ('../models/CoursesSchema')
-const Subject = require("../models/SubjectSchema")
-const Grade = require("../models/GradesSchema")
+const Teacher = require("../models/TeacherSchema")
 
 const getAllCourses = async (req,res) => {
 
 try {
-    const courses = await Course.find().populate('subject',"-_id -__v").populate('teacher',"-_id -__v")
+    const courses = await Course.find().populate('teacher',"subject","grade")
     res.status(200).json({
         success: true,
         result: courses
@@ -23,32 +22,20 @@ catch (err){
 
 }
 const createNewCourse = async (req, res) => {
-    const { name, subjectName,gradeName, price } = req.body;
+    const { name, price } = req.body;
     const teacher = req.token.userId;
   
     try {
 
+            const teacher = await Teacher.findOne({ user: req.token.userId });
+            if (!teacher) {
+              return res.status(404).json({ success: false, message: 'teacher not found' });
+            }
         
-    const subject = await Subject.findOne({ name: subjectName });
-
-    if (!subject) {
-        return res.status(404).json({
-          success: false,
-          message: 'Subject not found',
-        });
-      }
-    const grade = await Grade.findOne({name:gradeName})
-    if (!grade) {
-        return res.status(404).json({
-          success: false,
-          message: 'Grade not found',
-        });
-      }
+   
       const newCourse = new Course({
         name,
-        subject:subject._id,
-        teacher,
-        grade:grade._id,
+        teacher: teacher._id,
         price
       });
 
@@ -146,7 +133,37 @@ const createNewCourse = async (req, res) => {
   
   }
 
+  const getAllCoursesByUserId = async (req,res) => {
+    const {id} = req.token.userId;
+
+    try {
+const courses = await Course.findById(id).populate('teacher',"subject","grade")
+if (!courses){
+    return res.status(404).json({
+        success: false,
+        message: 'courses not found'
+      });
+}
+res.status(200).json({
+    success: true,
+    result: courses
+})
+
+
+    }
+    catch(err){
+        res.status(500).json({
+            success: false,
+            message: 'Server Error',
+            error: err.message
+          });
+    }
 
 
 
-module.exports = {getAllCourses,createNewCourse,addCourseToUser,removeCourseFromUser}
+  }
+
+
+
+
+module.exports = {getAllCourses,createNewCourse,addCourseToUser,removeCourseFromUser,getAllCoursesByUserId}

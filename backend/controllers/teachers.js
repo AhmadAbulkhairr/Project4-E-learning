@@ -4,8 +4,8 @@ const User = require('../models/UserSchema')
 
 
 const teacherRegister = async (req, res) => {
-    const { name, email, password, phoneNumber, age, subjectName
-        ,gradeName } = req.body;
+    const { name, email, password, phoneNumber, age, subject
+         } = req.body;
   
     try {
       // Find the teacher role
@@ -27,23 +27,12 @@ const teacherRegister = async (req, res) => {
         role: teacherRole._id,
       });
   
-      await user.save();
-      const subject = await Subject.findOne({ name: subjectName });
-      if (!subject) {
-        return res.status(404).json({ success: false, message: 'Subject not found' });
-      }
-  
-      const grade = await Grade.findOne({ name: gradeName });
-      if (!grade) {
-        return res.status(404).json({ success: false, message: 'Grade not found' });
-      }      // Create the teacher
+       // Create the teacher
       const teacher = new Teacher({
         user: user._id,
         phoneNumber,
         age,
-        subject: subject._id,
-        materials: [],
-grade :  grade._id,
+        subject,
     });
   
       await teacher.save();
@@ -66,7 +55,7 @@ grade :  grade._id,
 
 const getAllTeachers = async (req,res) => {
     try {
-        const allTeachers = await Teacher.find().populate('materials',"-_id -__v").populate('subject',"-_id -__v").populate('grade',"-_id -__v").populate("user","-_id -__v")
+        const allTeachers = await Teacher.find().populate('subject',"-_id -__v","grade").populate("user","-_id -__v")
 
         
     if(!allTeachers){
@@ -93,7 +82,8 @@ const getTeacher = async (req, res) => {
     const { id } = req.params;
   
     try {
-      const teacher = await Teacher.findById(id).populate('user',"-_id -__v").populate('subject',"-_id -__v").populate('grade',"-_id -__v").populate('materials',"-_id -__v")
+      const teacher = await Teacher.findById(id).populate('subject',"-_id -__v","grade").populate("user","-_id -__v")
+
       if (!teacher) {
         return res.status(404).json({
           success: false,
@@ -119,7 +109,8 @@ const getTeacher = async (req, res) => {
     const updateData = req.body;
   
     try {
-      const teacher = await Teacher.findByIdAndUpdate(id, updateData, { new: true }).populate('user',"-_id -__v").populate('subject',"-_id -__v").populate('grade',"-_id -__v").populate('materials',"-_id -__v")
+      const teacher = await Teacher.findByIdAndUpdate(id, updateData, { new: true }).populate('subject',"-_id -__v","grade").populate("user","-_id -__v")
+
       if (!teacher) {
         return res.status(404).json({
           success: false,
@@ -217,10 +208,39 @@ catch(err){
   }
 
 
+  
+const getAllTeachersBySubject = async (req,res) => {
+
+    const {id} = req.params
+    try {
+        const allTeachers = await Teacher.findById(id).populate('subject',"-_id -__v","grade").populate("user","-_id -__v")
+
+        
+    if(!allTeachers){
+        return res.status(404).json({
+            success: false,
+            message: "Teachers not found"
+        })
+    }
+    res.status(200).json({
+        success:true,
+        allTeachers
+    })
+    }
+    catch(error){
+        res.status(500).json({
+            success: false,
+            message: 'Server Error',
+            error: error.message,
+          });
+    }
+}
+
+
 module.exports = {
     teacherRegister,
     getAllTeachers,
     getTeacher,
     updateTeacher,
-    deleteTeacher,getTeacherByUserId,teacherInfo
+    deleteTeacher,getTeacherByUserId,teacherInfo,getAllTeachersBySubject
   };

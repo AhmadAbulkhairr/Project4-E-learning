@@ -7,8 +7,6 @@ const teacherSchema = new mongoose.Schema({
     subject: { type: mongoose.Schema.Types.ObjectId, ref: 'Subject' },
 
     age: { type: Number, required: true },
-    materials: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Material' }],
-    grade: { type: mongoose.Schema.Types.ObjectId, ref: 'Grade' },
     imageUrl: { type: String } 
   });
 

@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const subjectSchema = new mongoose.Schema({
     name: { type: String, required: true },
     grade: { type: mongoose.Schema.Types.ObjectId, ref: 'Grade', required: true },
-    materials: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Material' }],
     created_at: { type: Date, default: Date.now }
   });
   
