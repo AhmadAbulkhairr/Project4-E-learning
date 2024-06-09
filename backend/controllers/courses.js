@@ -6,7 +6,19 @@ const Teacher = require("../models/TeacherSchema")
 const getAllCourses = async (req,res) => {
 
 try {
-    const courses = await Course.find().populate('teacher',"subject","grade")
+    const courses = await Course.find().populate({
+        path: 'teacher',
+        populate: {
+          path: 'user',
+          select: 'name email'  
+ }
+ ,populate:{
+    path: 'subject',populate:{
+        path:"grade"
+    }
+
+ }
+ });
     res.status(200).json({
         success: true,
         result: courses
@@ -23,7 +35,6 @@ catch (err){
 }
 const createNewCourse = async (req, res) => {
     const { name, price } = req.body;
-    const teacher = req.token.userId;
   
     try {
 
@@ -137,7 +148,19 @@ const createNewCourse = async (req, res) => {
     const {id} = req.token.userId;
 
     try {
-const courses = await Course.findById(id).populate('teacher',"subject","grade")
+const courses = await Course.findById(id).populate({
+    path: 'teacher',
+    populate: {
+      path: 'user',
+      select: 'name email'  
+}
+,populate:{
+path: 'subject',populate:{
+    path:"grade"
+}
+
+}
+});
 if (!courses){
     return res.status(404).json({
         success: false,

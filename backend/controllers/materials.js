@@ -6,7 +6,7 @@ const Teacher = require("../models/TeacherSchema");
 
 
 const addMaterial = async (req, res) => {
-    const { name, subjectId, teacherID, contentType, contentUrl,img } = req.body;
+    const { name, subjectId, contentType, contentUrl } = req.body;
   
     try {
       const teacher = await Teacher.findOne({ user: req.token.userId });
@@ -85,7 +85,7 @@ const getAllMaterialsByTeacherId = async (req,res) => {
     const {id} = req.params
 
     try {
-        const allMaterials = await Material.find({teacher: id}).populate('teacher',"-_id -__v","subject","user","grade")
+        const allMaterials = await Material.find({teacher: id}).populate({path:'teacher',populate:{ path:"user"},populate:{ path:"subject",populate:{path:"grade"}}})
 
         
     if(!allMaterials){

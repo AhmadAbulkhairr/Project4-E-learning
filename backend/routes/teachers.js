@@ -7,7 +7,7 @@ const {
   getAllTeachers,
   getTeacher,
   updateTeacher,
-  deleteTeacher,getTeacherByUserId,teacherInfo,getAllTeachersBySubject
+  deleteTeacher,teacherInfo,getAllTeachersBySubject
 } = require('../controllers/teachers');
 
 const authentication = require("../middleware/authen");
@@ -18,7 +18,6 @@ teacherRouter.get("/allTeachers", getAllTeachers);
 teacherRouter.get("/Teacher/:id", getTeacher);
 teacherRouter.put("/Teacher/:id", authentication, authorization("Admin"), updateTeacher);
 teacherRouter.delete("/Teacher/:id", authentication, authorization("Admin"), deleteTeacher);
-teacherRouter.get("/Teacher",authentication,authorization("Teacher"),getTeacherByUserId)
 teacherRouter.get("/teacherinfo",authentication ,authorization("Teacher"),teacherInfo);
 teacherRouter.get("/allTeachers/:id", getAllTeachersBySubject);
 

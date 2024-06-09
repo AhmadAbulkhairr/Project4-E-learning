@@ -1,5 +1,6 @@
 const Teacher = require("../models/TeacherSchema");
 const User = require('../models/UserSchema')
+const Role = require("../models/RoleSchema")
 
 
 
@@ -26,6 +27,7 @@ const teacherRegister = async (req, res) => {
         password,
         role: teacherRole._id,
       });
+      await user.save()
   
        // Create the teacher
       const teacher = new Teacher({
@@ -55,7 +57,18 @@ const teacherRegister = async (req, res) => {
 
 const getAllTeachers = async (req,res) => {
     try {
-        const allTeachers = await Teacher.find().populate('subject',"-_id -__v","grade").populate("user","-_id -__v")
+        const allTeachers = await Teacher.find().populate({
+            path: 'user',
+            select: 'name email' 
+          })
+          .populate({
+            path: 'subject',
+            select: 'name',
+            populate: {
+              path: 'grade',
+              select: 'name'
+            }
+          });
 
         
     if(!allTeachers){
@@ -82,7 +95,18 @@ const getTeacher = async (req, res) => {
     const { id } = req.params;
   
     try {
-      const teacher = await Teacher.findById(id).populate('subject',"-_id -__v","grade").populate("user","-_id -__v")
+      const teacher = await Teacher.findById(id).populate({
+        path: 'user',
+        select: 'name email'  
+      })
+      .populate({
+        path: 'subject',
+        select: 'name',
+        populate: {
+          path: 'grade',
+          select: 'name'
+        }
+      });
 
       if (!teacher) {
         return res.status(404).json({
@@ -109,7 +133,18 @@ const getTeacher = async (req, res) => {
     const updateData = req.body;
   
     try {
-      const teacher = await Teacher.findByIdAndUpdate(id, updateData, { new: true }).populate('subject',"-_id -__v","grade").populate("user","-_id -__v")
+      const teacher = await Teacher.findByIdAndUpdate(id, updateData, { new: true }).populate({
+        path: 'user',
+        select: 'name email' 
+      })
+      .populate({
+        path: 'subject',
+        select: 'name',
+        populate: {
+          path: 'grade',
+          select: 'name'
+        }
+      });
 
       if (!teacher) {
         return res.status(404).json({
@@ -157,38 +192,25 @@ const getTeacher = async (req, res) => {
     }
   };
   
-  const getTeacherByUserId = (req,res) => {
-const userID = req.token.userId
 
-Teacher.find({user:userID}).then((result)=>{
-    if (!result){
-        return res.status(404).json({
-            success: false,
-            message: `this userID is not a teacher`,
-          });
-    }
-    res.status(200).json({
-        success: true,
-        message: `All the articles`,
-        userId: userID,
-        Teacher: result,
-      });
-}).catch((err)=>{
-    res.status(500).json({
-        success: false,
-        message: `Server Error`,
-        err: err.message,
-      });
-})
-
-}
 
 const teacherInfo = async (req,res) => {
     const userId = req.toke.userId
 
 try {
 
-   const user = await Teacher.find({user:userId}).populate('user',"-_id -__v")
+   const user = await Teacher.find({user:userId})   .populate({
+    path: 'user',
+    select: 'name email'  
+  })
+  .populate({
+    path: 'subject',
+    select: 'name',
+    populate: {
+      path: 'grade',
+      select: 'name'
+    }
+  });
 
    res.status(200).json({
     success: true,
@@ -213,7 +235,18 @@ const getAllTeachersBySubject = async (req,res) => {
 
     const {id} = req.params
     try {
-        const allTeachers = await Teacher.find({subject:id}).populate('subject',"-_id -__v","grade").populate("user","-_id -__v")
+        const allTeachers = await Teacher.find({subject:id})  .populate({
+            path: 'user',
+            select: 'name email'  
+          })
+          .populate({
+            path: 'subject',
+            select: 'name',
+            populate: {
+              path: 'grade',
+              select: 'name'
+            }
+          });
 
         
     if(!allTeachers){
@@ -242,5 +275,5 @@ module.exports = {
     getAllTeachers,
     getTeacher,
     updateTeacher,
-    deleteTeacher,getTeacherByUserId,teacherInfo,getAllTeachersBySubject
+    deleteTeacher,teacherInfo,getAllTeachersBySubject
   };

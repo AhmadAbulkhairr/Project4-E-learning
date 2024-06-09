@@ -24,7 +24,7 @@ const getAllSubjects = async (req, res) => {
 const getSubjectsByGradeId = async (req, res) => {
   const { gradeId } = req.params;
   try {
-    const subjects = await Subject.find({grade:gradeId});
+    const subjects = await Subject.find({grade:gradeId}).populate("grade");
     if (!subjects.length) {
       return res.status(404).json({
         success: false,
