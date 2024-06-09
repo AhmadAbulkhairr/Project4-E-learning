@@ -213,7 +213,7 @@ const getAllTeachersBySubject = async (req,res) => {
 
     const {id} = req.params
     try {
-        const allTeachers = await Teacher.findById(id).populate('subject',"-_id -__v","grade").populate("user","-_id -__v")
+        const allTeachers = await Teacher.find({subject:id}).populate('subject',"-_id -__v","grade").populate("user","-_id -__v")
 
         
     if(!allTeachers){

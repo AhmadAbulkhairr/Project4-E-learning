@@ -81,10 +81,37 @@ const deleteMaterial = async (req, res) => {
   }
 };
 
+const getAllMaterialsByTeacherId = async (req,res) => {
+    const {id} = req.params
+
+    try {
+        const allMaterials = await Material.find({teacher: id}).populate('teacher',"-_id -__v","subject","user","grade")
+
+        
+    if(!allMaterials){
+        return res.status(404).json({
+            success: false,
+            message: "Teachers not found"
+        })
+    }
+    res.status(200).json({
+        success:true,
+        allMaterials
+    })
+    }
+    catch(error){
+        res.status(500).json({
+            success: false,
+            message: 'Server Error',
+            error: error.message,
+          });
+    }
+}
 
 
 module.exports = {
   addMaterial,
   updateMaterial,
   deleteMaterial,
+  getAllMaterialsByTeacherId
 };

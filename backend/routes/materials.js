@@ -6,7 +6,7 @@ const {
   //getAllMaterials,
   //getMaterialById,
   updateMaterial,
-  deleteMaterial,
+  deleteMaterial,getAllMaterialsByTeacherId
 } = require('../controllers/materials');
 const {createNewReview} = require("../controllers/review")
 
@@ -14,7 +14,7 @@ const authentication = require('../middleware/authen');
 const authorization = require('../middleware/author');
 
 materialRouter.post('/addMaterial', authentication, authorization('Teacher', 'Admin'), addMaterial);
-//materialRouter.get('/allMaterials', authentication, getAllMaterials);
+materialRouter.get('/allMaterials/:id', getAllMaterialsByTeacherId);
 
 //materialRouter.get('/subject/:id/materials', authentication, getAllMaterialsBySubjectId);
 
