@@ -3,8 +3,6 @@ const materialRouter = express.Router();
 
 const {
   addMaterial,
-  //getAllMaterials,
-  //getMaterialById,
   updateMaterial,
   deleteMaterial,getAllMaterialsByTeacherId
 } = require('../controllers/materials');

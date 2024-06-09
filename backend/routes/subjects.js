@@ -2,7 +2,6 @@ const express = require('express');
 const subjectRouter = express.Router();
 
 const {
- // getAllSubjects,
   getSubjectsByGradeId,
   addSubject,
   updateSubject,
@@ -12,7 +11,6 @@ const {
 const authentication = require('../middleware/authen');
 const authorization = require('../middleware/author');
 
-//subjectRouter.get('/allSubjects', getAllSubjects);
 subjectRouter.get('/allSubjects/:gradeId', getSubjectsByGradeId);
 
 subjectRouter.post('/addSubject', authentication, authorization('Admin'), addSubject);

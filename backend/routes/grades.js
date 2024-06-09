@@ -3,7 +3,6 @@ const gradeRouter = express.Router();
 
 const {
   getAllGrades,
-  //getSubjectsByGradeId,
   addGrade,
   updateGrade,
   deleteGrade,

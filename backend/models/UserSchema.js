@@ -26,12 +26,8 @@ const userSchema = new mongoose.Schema({
     myCourses: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Course'
-    }],
-    created_at: {
-      type: Date,
-      default: Date.now
-    }
-  });
+    }]
+  },{ timestamps: true });
 
 userSchema.pre("save", async function () {
     this.email = this.email.toLowerCase();
