@@ -1,0 +1,24 @@
+/* Home.css */
+.carousel .slide img {
+  filter: brightness(70%);
+}
+
+.carousel .slide {
+  position: relative;
+}
+
+.carousel .slide .MuiBox-root {
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.carousel .slide .MuiBox-root h3, .carousel .slide .MuiBox-root h6, .carousel .slide .MuiBox-root button {
+  color: white;
+}
+
+.carousel .slide .MuiBox-root button {
+  margin-top: 20px;
+}

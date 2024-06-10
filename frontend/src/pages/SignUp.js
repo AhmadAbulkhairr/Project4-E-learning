@@ -25,7 +25,7 @@ const handleRegistered = (e) => {
     console.log(result.data.message);
     setMessage(result.data.message)
   }).catch((error)=>{
-    console.log(error.response.data.message);
+    console.log(error.response);
     setMessage(error.response.data.message)
   })}
 
@@ -47,7 +47,7 @@ const handleRegistered = (e) => {
           label="Email"
           value={user.email}
           onChange={(e)=> {
-            setUser (prev => ({...prev,...{password: e.target.value}}) )}}
+            setUser (prev => ({...prev,...{email: e.target.value}}) )}}
           fullWidth
           margin="normal"
         />
