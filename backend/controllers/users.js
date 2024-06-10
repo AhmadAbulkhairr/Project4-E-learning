@@ -84,6 +84,8 @@ role:"6664a1c3749506adedc47b0e"    });
             success: true,
             message: `Valid login credentials`,
             token: token,
+            role: result.role,
+            user: result.name,
           });
         } catch (error) {
           throw new Error(error.message);
