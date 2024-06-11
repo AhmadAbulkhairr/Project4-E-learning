@@ -2,19 +2,18 @@ import React, { useContext } from 'react';
 import { AppBar, Toolbar, Typography, Button, Container, IconButton } from '@mui/material';
 import { Home as HomeIcon, School as SchoolIcon, Dashboard as DashboardIcon, Login as LoginIcon, Logout as LogoutIcon, PersonAdd as PersonAddIcon } from '@mui/icons-material';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
 
 const Header = () => {
   const { token, role,setToken,setRole } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const signOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     setToken("")
     setRole("")
-
-
 }
 return (
   <AppBar position="static" color="primary" style={{ background: '#6200ea' }}>
@@ -32,7 +31,6 @@ return (
         </IconButton>
         <IconButton color="inherit" component={Link} to="/all-courses">
           <SchoolIcon />
-
           Grades
         </IconButton>
         {token ? (

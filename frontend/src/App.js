@@ -8,8 +8,8 @@ export const UserContext = createContext();
 
 const App = () => {
 
-const [token, setToken] = useState("")
-const [role, setRole] = useState("")
+  const [token, setToken] = useState(localStorage.getItem('token') || "");
+  const [role, setRole] = useState(localStorage.getItem('role') || "");
 
 useEffect(() => {
   const storedToken = localStorage.getItem('token');
