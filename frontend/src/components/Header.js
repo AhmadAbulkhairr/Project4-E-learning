@@ -25,14 +25,18 @@ return (
         <IconButton color="inherit" component={Link} to="/">
           <HomeIcon />
         </IconButton>
-        <IconButton color="inherit" component={Link} to="/all-grades">
-          <SchoolIcon />
+        <IconButton color="inherit" component={Link} to="/grades">
+        <SchoolIcon  />
+          <Typography marginLeft={0.5} variant='h6' >
+            Grades
+            </Typography>    
+        </IconButton>
+        <IconButton color="inherit" component={Link} to="/courses">
+          <SchoolIcon  />
+          <Typography marginLeft={0.5} variant='h6' >
           Courses
-        </IconButton>
-        <IconButton color="inherit" component={Link} to="/all-courses">
-          <SchoolIcon />
-          Grades
-        </IconButton>
+            </Typography>    
+                </IconButton>
         {token ? (
           <>
             {role === "Admin" && (

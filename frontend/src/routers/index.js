@@ -9,7 +9,7 @@ import AdminDashboard from '../pages/AdminDashboard';
 import TeacherDashboard from '../pages/TeacherDashboard';
 import MyCourses from '../pages/MyCourses';
 import PrivateRoute from '../components/PrivateRoute'; 
-
+import Subjects from '../pages/Subjects'
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -19,6 +19,8 @@ export const router = createBrowserRouter([
       { path: 'signin', element: <SignIn /> },
       { path: 'signup', element: <SignUp /> },
       { path: 'grades', element: <Grades /> },
+      { path: 'grades/:id/subjects', element: <Subjects /> },
+
       { 
         path: 'admin-dashboard', 
         element: (
