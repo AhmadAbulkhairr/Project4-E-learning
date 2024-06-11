@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Grid, Card, CardContent, Typography, Box } from '@mui/material';
+import { Container, Grid, Card, CardContent, Typography, Box,Paper } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
 import { Link } from 'react-router-dom';
 
@@ -25,6 +25,8 @@ const Grades = () => {
       <Grid container spacing={4}>
         {grades.map((grade) => (
           <Grid item key={grade._id} xs={12} sm={6} md={4}>
+                    <Paper elevation={3} style={{ padding: 20 }}>
+
             <Card component={Link} to={`/grades/${grade._id}/subjects`} style={{ textDecoration: 'none' }}>
               <CardContent>
                 <Box display="flex" alignItems="center">
@@ -35,6 +37,7 @@ const Grades = () => {
                 </Box>
               </CardContent>
             </Card>
+           </Paper>
           </Grid>
         ))}
       </Grid>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Container, Typography, Grid, Card, CardContent, Box } from '@mui/material';
+import { Container, Paper,Typography, Grid, Card, CardContent, Box } from '@mui/material';
 import BookIcon from '@mui/icons-material/Book';
 
 
@@ -31,6 +31,7 @@ const Subjects = () => {
       <Grid container spacing={4}>
         {subjects.map((subject) => (
           <Grid item key={subject._id} xs={12} sm={6} md={4}>
+                    <Paper elevation={3} style={{ padding: 20 }}>
             <Card>
               <CardContent>
                 <Box display="flex" alignItems="center">
@@ -44,6 +45,7 @@ const Subjects = () => {
                 </Typography>
               </CardContent>
             </Card>
+            </Paper>
           </Grid>
         ))}
       </Grid>

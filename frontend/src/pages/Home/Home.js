@@ -1,15 +1,28 @@
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
-import { Button, Typography, Container, Box, Grid } from '@mui/material';
+import { Button, Typography, Container, Box, Grid, Card, CardContent, TextField, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
 import learnoImage from '../../assets/images/element5-digital-OyCl7Y4y0Bk-unsplash.jpg';
-import learnoImage1 from '../../assets/images/kenny-eliason-zFSo6bnZJTw-unsplash.jpg';
 import learnoImage2 from '../../assets/images/priscilla-du-preez-XkKCui44iM0-unsplash.jpg';
 import './Home.css'; 
-
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
+import RateReviewIcon from '@mui/icons-material/RateReview';
+import ContactMailIcon from '@mui/icons-material/ContactMail';
 
 const Home = () => {
+
+  const faqs = [
+    { question: "What is Learno?", answer: "Learno is an e-learning platform that offers various courses for students." },
+    { question: "How do I sign up?", answer: "Click on the 'Sign Up' button and fill in the required details." },
+    { question: "How do I access my courses?", answer: "Once logged in, navigate to 'My Courses' to view your enrolled courses." },
+  ];
+
+  const reviews = [
+    { name: "John Doe", review: "Learno has transformed the way I learn. The courses are comprehensive and easy to follow." },
+    { name: "Jane Smith", review: "I love the interactive content and the support from the instructors." },
+    { name: "Michael Lee", review: "A fantastic platform with a wide range of courses. Highly recommended!" },
+  ];
   return (
     <Container>
 
@@ -53,6 +66,61 @@ const Home = () => {
           </Button>
         </Grid>
       </Grid>
+
+
+      <Box mt={5}>
+        <Typography variant="h4" gutterBottom>
+          <QuestionAnswerIcon fontSize="large" style={{ marginRight: 10 }} /> Frequently Asked Questions
+        </Typography>
+        {faqs.map((faq, index) => (
+          <Paper key={index} elevation={3} style={{ padding: 20, margin: '20px 0' }}>
+            <Typography variant="h6" style={{ fontWeight: 600 }}>{faq.question}</Typography>
+            <Typography variant="body1" color="textSecondary">{faq.answer}</Typography>
+          </Paper>
+        ))}
+      </Box>
+
+      <Box mt={5}>
+        <Typography variant="h4" gutterBottom>
+          <RateReviewIcon fontSize="large" style={{ marginRight: 10 }} /> Student Reviews
+        </Typography>
+        <Grid container spacing={4}>
+          {reviews.map((review, index) => (
+            <Grid item key={index} xs={12} sm={6} md={4}>
+              <Card elevation={3}>
+                <CardContent>
+                  <Typography variant="h6" style={{ fontWeight: 600 }}>{review.name}</Typography>
+                  <Typography variant="body1" color="textSecondary">{review.review}</Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+
+      <Box mt={5} mb={5}>
+        <Typography variant="h4" gutterBottom>
+          <ContactMailIcon fontSize="large" style={{ marginRight: 10 }} /> Contact Us
+        </Typography>
+        <Paper elevation={3} style={{ padding: 20 }}>
+          <Box component="form" noValidate autoComplete="off">
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField fullWidth label="Name" variant="outlined" />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField fullWidth label="Email" variant="outlined" />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField fullWidth label="Message" variant="outlined" multiline rows={4} />
+              </Grid>
+              <Grid item xs={12} style={{ textAlign: 'center' }}>
+                <Button variant="contained" color="primary">Send</Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Paper>
+      </Box>
     </Container>
   );
 };
