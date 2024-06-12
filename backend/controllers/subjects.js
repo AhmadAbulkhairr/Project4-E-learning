@@ -47,7 +47,7 @@ const getSubjectsByGradeId = async (req, res) => {
 // Add a new subject
 
 const addSubject = async (req, res) => {
-    const { name, gradeId } = req.body;
+    const { name, grade } = req.body;
   
     try {
       // Find the grade by name
@@ -55,7 +55,7 @@ const addSubject = async (req, res) => {
       // Create new subject
       const newSubject = new Subject({
         name,
-        grade: gradeId,
+        grade
       });
   
       // Save the new subject

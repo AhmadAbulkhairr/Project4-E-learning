@@ -5,11 +5,14 @@ const {
   getSubjectsByGradeId,
   addSubject,
   updateSubject,
-  deleteSubject,
+  deleteSubject,getAllSubjects
 } = require('../controllers/subjects');
 
 const authentication = require('../middleware/authen');
 const authorization = require('../middleware/author');
+
+
+subjectRouter.get('/allSubjects', getAllSubjects);
 
 subjectRouter.get('/allSubjects/:gradeId', getSubjectsByGradeId);
 

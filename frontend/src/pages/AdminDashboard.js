@@ -20,6 +20,8 @@ const AdminDashboard = () => {
   const [newGrade, setNewGrade] = useState('');
   const [newSubject, setNewSubject] = useState({ name: '', grade: '' });
 
+
+  //getting all grades in drop list
   useEffect(() => {
     axios.get('http://localhost:5000/Grades/allGrades')
       .then(response => {
@@ -30,6 +32,8 @@ const AdminDashboard = () => {
       });
   }, []);
 
+
+  //adding new grade and updating the grade array
   const handleAddGrade = async (e) => {
     e.preventDefault();
     try {
@@ -49,6 +53,7 @@ const AdminDashboard = () => {
     }
   };
 
+  // add new subject and update 
   const handleAddSubject = async (e) => {
     e.preventDefault();
     try {
@@ -62,7 +67,7 @@ const AdminDashboard = () => {
         }
       );
       setMessage(response.data.message);
-      setSubjects([...subjects, response.data.subject]);
+     // setSubjects([...subjects, response.data.subject]);
     } catch (error) {
       setMessage(error.response?.data?.message || 'Server Error');
     }
@@ -102,17 +107,21 @@ const AdminDashboard = () => {
     }));
   };
 
+
+  //creating teacher with form including
   const handleRegister = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
+    console.log(formData);
+    console.log(teacher);
     Object.keys(teacher).forEach((key) => {
       formData.append(key, teacher[key]);
     });
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/teacher/register',
+        'http://localhost:5000/teachers/register',
         formData,
         {
           headers: {
@@ -122,6 +131,7 @@ const AdminDashboard = () => {
         }
       );
       setMessage(response.data.message);
+      console.log(formData);
     } catch (error) {
       setMessage(error.response?.data?.message || 'Server Error');
     }
@@ -133,12 +143,13 @@ const AdminDashboard = () => {
         <Typography variant="h4" gutterBottom>
           Admin Dashboard
         </Typography>
+        {message && <Typography color="error">{message}</Typography>}
+
         <Card>
           <CardContent>
             <Typography variant="h6" gutterBottom>
               Register a New Teacher
             </Typography>
-            {message && <Typography color="error">{message}</Typography>}
             <form onSubmit={handleRegister} encType="multipart/form-data">
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>

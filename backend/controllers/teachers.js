@@ -1,58 +1,46 @@
 const Teacher = require("../models/TeacherSchema");
 const User = require('../models/UserSchema')
 const Role = require("../models/RoleSchema")
-
+const cloudinary = require('../cloudinaryConfig'); // Path to your Cloudinary config
 
 
 const teacherRegister = async (req, res) => {
-    const { name, email, password, phoneNumber, age, subject
-         } = req.body;
-  
-    try {
-      // Find the teacher role
-      // on the same way I will find the subject and grade 
-      //or I will add it from db
-      const teacherRole = await Role.findOne({ role: 'Teacher' });
-      if (!teacherRole) {
-        return res.status(404).json({
-          success: false,
-          message: 'Teacher role not found',
-        });
-      }
-  
-      // Create the user
-      const user = new User({
-        name,
-        email,
-        password,
-        role: teacherRole._id,
-      });
-      await user.save()
-  
-       // Create the teacher
-      const teacher = new Teacher({
-        user: user._id,
-        phoneNumber,
-        age,
-        subject,
-    });
-  
-      await teacher.save();
-  
-      res.status(201).json({
-        success: true,
-        message: 'Teacher registered successfully',
-        teacher,
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: 'Server Error',
-        error: error.message,
-      });
-    }
-  };
+  const { name, email, password, phoneNumber, age,grade, subject } = req.body;
 
+  try {
+    const teacherRole = await Role.findOne({ role: 'Teacher' });
+    if (!teacherRole) {
+      return res.status(404).json({ success: false, message: 'Teacher role not found' });
+    }
+
+    const user = new User({ name, email, password, role: teacherRole._id });
+    await user.save();
+
+    // Cloudinary
+    let imageUrl = null;
+    if (req.files && req.files.image) {
+      const result = await cloudinary.uploader.upload(req.files.image.path, {
+        folder: 'teacher_images',
+      });
+      imageUrl = result.secure_url;
+    }
+
+    const teacher = new Teacher({
+      user: user._id,
+      phoneNumber,
+      age,
+      subject,
+      grade,
+      imageUrl,
+    });
+
+    await teacher.save();
+
+    res.status(201).json({ success: true, message: 'Teacher registered successfully', teacher });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server Error', error: error.message });
+  }
+};
 
 
 const getAllTeachers = async (req,res) => {

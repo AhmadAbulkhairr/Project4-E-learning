@@ -10,6 +10,7 @@ import TeacherDashboard from '../pages/TeacherDashboard';
 import MyCourses from '../pages/MyCourses';
 import PrivateRoute from '../components/PrivateRoute'; 
 import Subjects from '../pages/Subjects'
+import Teachers from '../pages/Teachers';
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -20,6 +21,7 @@ export const router = createBrowserRouter([
       { path: 'signup', element: <SignUp /> },
       { path: 'grades', element: <Grades /> },
       { path: 'grades/:id/subjects', element: <Subjects /> },
+      { path: 'teachers', element: <Teachers /> },
 
       { 
         path: 'admin-dashboard', 
