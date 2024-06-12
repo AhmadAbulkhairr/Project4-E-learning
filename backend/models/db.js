@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const roles = require("./RoleSchema")
 mongoose.set("strictQuery", false);
 // connecting to mongodb
 mongoose.connect(process.env.DB_URI).then(

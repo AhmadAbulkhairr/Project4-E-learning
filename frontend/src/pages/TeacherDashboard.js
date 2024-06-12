@@ -93,8 +93,8 @@ const TeacherDashboard = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <input
-                    accept="video/*,.pdf"
-                    type="file"
+  accept="video/*,application/pdf"
+    type="file"
                     name="file"
                     onChange={handleFileChange}
                     id="file-upload"

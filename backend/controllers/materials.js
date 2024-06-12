@@ -14,16 +14,15 @@ const addMaterial = async (req, res) => {
       if (!teacher) {
         return res.status(404).json({ success: false, message: 'teacher not found' });
       }
-  
-      let contentUrl = null;
-      if (req.files && req.files.file) {
-        const result = await cloudinary.uploader.upload(req.files.file.path, {
-         resource_type: contentType === 'video' ? 'video' : contentType === 'document' ? 'raw' : 'auto',
-          folder: 'material_files',
-        });
-        contentUrl = result.secure_url;
-      }
-
+  console.log(req.files.file);
+  let contentUrl = null;
+  if (req.files && req.files.file) {
+    const result = await cloudinary.uploader.upload(req.files.file.path, {
+      resource_type: contentType === 'video' ? 'video' : 'auto',
+      folder: 'material_files',
+    });
+    contentUrl = result.secure_url;
+  }
 
       const material = new Material({
         name,

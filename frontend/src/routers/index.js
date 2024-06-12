@@ -13,6 +13,7 @@ import Teacher from '../pages/Teacher';
 import PrivateRoute from '../components/PrivateRoute'; 
 import Subjects from '../pages/Subjects'
 import Teachers from '../pages/Teachers';
+import Materials from '../pages/Materials';
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -24,6 +25,7 @@ export const router = createBrowserRouter([
       { path: 'grades', element: <Grades /> },
       { path: 'grades/:id/subjects', element: <Subjects /> },
       { path: 'subjects/:id/teachers', element: <Teacher /> },
+      { path: 'teachers/:id/materials', element: <Materials /> },
 
       { path: 'teachers', element: <Teachers /> },
 

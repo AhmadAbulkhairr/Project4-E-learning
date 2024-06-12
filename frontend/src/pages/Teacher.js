@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import  { useEffect, useState } from 'react';
 import { Container, Typography, Grid, Avatar, Card, CardContent, Box } from '@mui/material';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Teacher = () => {
 
@@ -37,7 +38,7 @@ const [message, setMessage] = useState('');
       <Grid container spacing={4}>
         {teachers.map((teacher) => (
           <Grid item key={teacher._id} xs={12} sm={6} md={4}>
-            <Card>
+            <Card component={Link} to={`/teachers/${teacher._id}/materials`} style={{ textDecoration: 'none' }} >
               <CardContent>
                 <Box display="flex" alignItems="center">
                   <Avatar 

@@ -19,7 +19,43 @@ const AdminDashboard = () => {
   const [message, setMessage] = useState('');
   const [newGrade, setNewGrade] = useState('');
   const [newSubject, setNewSubject] = useState({ name: '', grade: '' });
+  const [deletedSubject, setDeletedSubject] = useState("");
+const [grade, setGrade] = useState("")
 
+
+
+const handleDeleteSubjectGrade =  (e) => {
+
+
+  setGrade(e.target.value);
+
+
+  axios.get(`http://localhost:5000/subjects/allSubjects/${e.target.value}`)
+        .then(response => {
+          console.log("result grade:",response.data.subjects);
+          setSubjects(response.data.subjects);
+        })
+        .catch(error => {
+          console.error('Error getting subjects:', error);
+          setSubjects([]);
+        });
+}
+  const handleDeleteSubject = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.delete(
+        `http://localhost:5000/subjects/deleteSubject/${deletedSubject}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
+      setMessage(response.data.message);
+    } catch (error) {
+      setMessage(error.response?.data?.message || 'Server Error');
+    }
+  }
 
   //getting all grades in drop list
   useEffect(() => {
@@ -206,7 +242,7 @@ const AdminDashboard = () => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth required>
-                    <InputLabel id="grades-label">Grade</InputLabel>
+                    <InputLabel id="grades-label">Grade </InputLabel>
                     <Select
                       labelId="grades-label"
                       name="grade"
@@ -335,6 +371,61 @@ const AdminDashboard = () => {
                 <Grid item xs={12}>
                   <Button type="submit" variant="contained" color="primary">
                     Add Subject
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+          </CardContent>
+        </Card>
+      </Box>
+
+      <Box mt={4}>
+        <Card>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+Delete subject
+            </Typography>
+            <form onSubmit={handleDeleteSubject}>
+              <Grid container spacing={3}>
+              <Grid item xs={12} sm={6}>
+                  <FormControl fullWidth required>
+                    <InputLabel id="grades-label"> Grade</InputLabel>
+                    <Select
+                      labelId="grades-label"
+                      name="grade"
+                      onChange={handleDeleteSubjectGrade} 
+                    >
+                      {grades.map((grade) => (
+                        <MenuItem key={grade._id} value={grade._id}>
+                          {grade.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <FormControl fullWidth required>
+                    <InputLabel id="subject-grade-label">Subject</InputLabel>
+                    <Select
+                      labelId="subject-grade-label"
+                      name="subject"
+                      value={deletedSubject}
+                      onChange={(e)=> {setDeletedSubject(e.target.value)
+                      }}
+                     
+                      disabled = {!grade}
+                    >
+                      {subjects.map((subject) => (
+                        <MenuItem key={subject._id} value={subject._id}>
+                          {subject.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <Button type="submit" variant="contained" color="primary">
+                    Delete Subject
                   </Button>
                 </Grid>
               </Grid>
