@@ -8,6 +8,8 @@ import Grades from '../pages/Grades';
 import AdminDashboard from '../pages/AdminDashboard';
 import TeacherDashboard from '../pages/TeacherDashboard';
 import MyCourses from '../pages/MyCourses';
+import Teacher from '../pages/Teacher';
+
 import PrivateRoute from '../components/PrivateRoute'; 
 import Subjects from '../pages/Subjects'
 import Teachers from '../pages/Teachers';
@@ -21,6 +23,8 @@ export const router = createBrowserRouter([
       { path: 'signup', element: <SignUp /> },
       { path: 'grades', element: <Grades /> },
       { path: 'grades/:id/subjects', element: <Subjects /> },
+      { path: 'subjects/:id/teachers', element: <Teacher /> },
+
       { path: 'teachers', element: <Teachers /> },
 
       { 

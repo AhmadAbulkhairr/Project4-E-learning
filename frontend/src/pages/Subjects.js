@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Container, Paper,Typography, Grid, Card, CardContent, Box } from '@mui/material';
 import BookIcon from '@mui/icons-material/Book';
-
+import { Link } from 'react-router-dom';
 
 const Subjects = () => {
     const {id} = useParams()
@@ -32,7 +32,7 @@ const Subjects = () => {
         {subjects.map((subject) => (
           <Grid item key={subject._id} xs={12} sm={6} md={4}>
                     <Paper elevation={3} style={{ padding: 20 }}>
-            <Card>
+            <Card  component={Link} to={`/subjects/${subject._id}/teachers`} style={{ textDecoration: 'none' }} >
               <CardContent>
                 <Box display="flex" alignItems="center">
                   <BookIcon style={{ fontSize: 40, marginRight: 10 }} />

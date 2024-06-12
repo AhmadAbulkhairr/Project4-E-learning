@@ -26,7 +26,6 @@ const Grades = () => {
         {grades.map((grade) => (
           <Grid item key={grade._id} xs={12} sm={6} md={4}>
                     <Paper elevation={3} style={{ padding: 20 }}>
-
             <Card component={Link} to={`/grades/${grade._id}/subjects`} style={{ textDecoration: 'none' }}>
               <CardContent>
                 <Box display="flex" alignItems="center">
