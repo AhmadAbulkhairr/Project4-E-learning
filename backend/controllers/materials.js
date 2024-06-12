@@ -1,12 +1,13 @@
 const Material = require('../models/MaterialSchema');
 
 const Teacher = require("../models/TeacherSchema");
+const cloudinary = require('../cloudinaryConfig');
 
 
 
 
 const addMaterial = async (req, res) => {
-    const { name, subjectId, contentType, contentUrl } = req.body;
+    const { name, contentType } = req.body;
   
     try {
       const teacher = await Teacher.findOne({ user: req.token.userId });
@@ -14,12 +15,18 @@ const addMaterial = async (req, res) => {
         return res.status(404).json({ success: false, message: 'teacher not found' });
       }
   
-  
+      let contentUrl = null;
+      if (req.files && req.files.file) {
+        const result = await cloudinary.uploader.upload(req.files.file.path, {
+         resource_type: contentType === 'video' ? 'video' : contentType === 'document' ? 'raw' : 'auto',
+          folder: 'material_files',
+        });
+        contentUrl = result.secure_url;
+      }
 
 
       const material = new Material({
         name,
-        subjectId,
         teacher: teacher._id,
         contentType,
         contentUrl

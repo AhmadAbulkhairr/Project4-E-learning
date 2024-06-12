@@ -1,5 +1,8 @@
 const express = require('express');
 const materialRouter = express.Router();
+const multiparty = require('connect-multiparty');
+
+const multipartyMiddleware = multiparty();
 
 const {
   addMaterial,
@@ -11,7 +14,7 @@ const {createNewReview} = require("../controllers/review")
 const authentication = require('../middleware/authen');
 const authorization = require('../middleware/author');
 
-materialRouter.post('/addMaterial', authentication, authorization('Teacher'), addMaterial);
+materialRouter.post('/addMaterial', authentication, authorization('Teacher'), multipartyMiddleware,addMaterial);
 materialRouter.get('/allMaterials/:id', getAllMaterialsByTeacherId);
 
 //materialRouter.get('/subject/:id/materials', authentication, getAllMaterialsBySubjectId);
