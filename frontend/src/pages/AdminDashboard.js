@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Container, TextField, Button, Typography, Grid, Box, Card, CardContent, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import axios from 'axios';
+import CreateTeacher from '../components/CreateTeacher';
+import {createContext } from 'react'
+import AddNewGrade from '../components/AddNewGrade';
+import AddNewSubject from '../components/AddNewSubject';
+import DeleteSubject from '../components/DeleteSubject';
+import DeleteGrade from '../components/DeleteGrade';
+
+export const AdminContext = createContext();
+
 
 const AdminDashboard = () => {
   const [teacher, setTeacher] = useState({
@@ -20,16 +29,8 @@ const AdminDashboard = () => {
   const [newGrade, setNewGrade] = useState('');
   const [newSubject, setNewSubject] = useState({ name: '', grade: '' });
   const [deletedSubject, setDeletedSubject] = useState("");
-const [grade, setGrade] = useState("")
-
-
 
 const handleDeleteSubjectGrade =  (e) => {
-
-
-  setGrade(e.target.value);
-
-
   axios.get(`http://localhost:5000/subjects/allSubjects/${e.target.value}`)
         .then(response => {
           console.log("result grade:",response.data.subjects);
@@ -173,268 +174,36 @@ const handleDeleteSubjectGrade =  (e) => {
     }
   };
 
+
+  
   return (
+
+    <AdminContext.Provider value={{teacher,
+      grades,
+      subjects,handleInputChange,
+      handleFileChange,
+      handleRegister,newGrade,
+      setNewGrade,handleAddGrade,handleNewSubjectChange,handleAddSubject,newSubject,deletedSubject,
+      setDeletedSubject,
+      handleDeleteSubjectGrade,
+      handleDeleteSubject,setMessage}}>
+
     <Container>
       <Box mt={4}>
         <Typography variant="h4" gutterBottom>
           Admin Dashboard
         </Typography>
         {message && <Typography color="error">{message}</Typography>}
-
-        <Card>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              Register a New Teacher
-            </Typography>
-            <form onSubmit={handleRegister} encType="multipart/form-data">
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Name"
-                    name="name"
-                    value={teacher.name}
-                    onChange={handleInputChange}
-                    fullWidth
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Email"
-                    name="email"
-                    value={teacher.email}
-                    onChange={handleInputChange}
-                    fullWidth
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Password"
-                    name="password"
-                    type="password"
-                    value={teacher.password}
-                    onChange={handleInputChange}
-                    fullWidth
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Phone Number"
-                    name="phoneNumber"
-                    value={teacher.phoneNumber}
-                    onChange={handleInputChange}
-                    fullWidth
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Age"
-                    name="age"
-                    type="number"
-                    value={teacher.age}
-                    onChange={handleInputChange}
-                    fullWidth
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth required>
-                    <InputLabel id="grades-label">Grade </InputLabel>
-                    <Select
-                      labelId="grades-label"
-                      name="grade"
-                      value={teacher.grade}
-                      onChange={handleInputChange}
-                    >
-                      {grades.map((grade) => (
-                        <MenuItem key={grade._id} value={grade._id}>
-                          {grade.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth required>
-                    <InputLabel id="subjects-label">Subject</InputLabel>
-                    <Select
-                      labelId="subjects-label"
-                      name="subject"
-                      value={teacher.subject}
-                      onChange={handleInputChange}
-                      disabled={!teacher.grade} 
-                    >
-                      {subjects.map((subject) => (
-                        <MenuItem key={subject._id} value={subject._id}>
-                          {subject.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <input
-                    accept="image/*"
-                    type="file"
-                    name="image"
-                    onChange={handleFileChange}
-                    id="image-upload"
-                  />
-                  <label htmlFor="image-upload">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      component="span"
-                    >
-                      Upload Image
-                    </Button>
-                  </label>
-                </Grid>
-                <Grid item xs={12}>
-                  <Button type="submit" variant="contained" color="primary">
-                    Register Teacher
-                  </Button>
-                </Grid>
-              </Grid>
-            </form>
-          </CardContent>
-        </Card>
-      </Box>
-      
-      <Box mt={4}>
-        <Card>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              Add a New Grade
-            </Typography>
-            <form onSubmit={handleAddGrade}>
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Grade Name"
-                    name="name"
-                    value={newGrade}
-                    onChange={(e) => setNewGrade(e.target.value)}
-                    fullWidth
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Button type="submit" variant="contained" color="primary">
-                    Add Grade
-                  </Button>
-                </Grid>
-              </Grid>
-            </form>
-          </CardContent>
-        </Card>
-      </Box>
-
-      <Box mt={4}>
-        <Card>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              Add a New Subject
-            </Typography>
-            <form onSubmit={handleAddSubject}>
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Subject Name"
-                    name="name"
-                    value={newSubject.name}
-                    onChange={handleNewSubjectChange}
-                    fullWidth
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth required>
-                    <InputLabel id="subject-grade-label">Grade</InputLabel>
-                    <Select
-                      labelId="subject-grade-label"
-                      name="grade"
-                      value={newSubject.grade}
-                      onChange={handleNewSubjectChange}
-                    >
-                      {grades.map((grade) => (
-                        <MenuItem key={grade._id} value={grade._id}>
-                          {grade.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <Button type="submit" variant="contained" color="primary">
-                    Add Subject
-                  </Button>
-                </Grid>
-              </Grid>
-            </form>
-          </CardContent>
-        </Card>
-      </Box>
-
-      <Box mt={4}>
-        <Card>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-Delete subject
-            </Typography>
-            <form onSubmit={handleDeleteSubject}>
-              <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth required>
-                    <InputLabel id="grades-label"> Grade</InputLabel>
-                    <Select
-                      labelId="grades-label"
-                      name="grade"
-                      onChange={handleDeleteSubjectGrade} 
-                    >
-                      {grades.map((grade) => (
-                        <MenuItem key={grade._id} value={grade._id}>
-                          {grade.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth required>
-                    <InputLabel id="subject-grade-label">Subject</InputLabel>
-                    <Select
-                      labelId="subject-grade-label"
-                      name="subject"
-                      value={deletedSubject}
-                      onChange={(e)=> {setDeletedSubject(e.target.value)
-                      }}
-                     
-                      disabled = {!grade}
-                    >
-                      {subjects.map((subject) => (
-                        <MenuItem key={subject._id} value={subject._id}>
-                          {subject.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <Button type="submit" variant="contained" color="primary">
-                    Delete Subject
-                  </Button>
-                </Grid>
-              </Grid>
-            </form>
-          </CardContent>
-        </Card>
-      </Box>
+</Box>
+      <CreateTeacher/>
+      <AddNewGrade/>
+<AddNewSubject/>
+   <DeleteSubject/>
+<DeleteGrade/>
 
     </Container>
+    </AdminContext.Provider>
+
   );
 };
 

@@ -1,4 +1,6 @@
 const Grade = require("../models/GradesSchema");
+const Subject = require("../models/SubjectSchema")
+const Teacher = require("../models/TeacherSchema")
 
 // Get all grades
 const getAllGrades = async (req, res) => {
@@ -100,6 +102,9 @@ const deleteGrade = async (req, res) => {
   const { id } = req.params;
 
   try {
+    const subjects = await Subject.deleteMany({grade:id})
+    const Teachers = await Subject.deleteMany({grade:id})
+
     const grade = await Grade.findByIdAndDelete(id);
     if (!grade) {
       return res.status(404).json({
