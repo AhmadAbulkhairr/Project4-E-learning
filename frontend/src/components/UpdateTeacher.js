@@ -106,6 +106,7 @@ const UpdateTeacher = () => {
                     <TextField
                       label="Phone Number"
                       name="phoneNumber"
+                      required
                       value={updatedTeacher.phoneNumber}
                       onChange={handleInputChange}
                       fullWidth
@@ -116,13 +117,15 @@ const UpdateTeacher = () => {
                       label="Age"
                       name="age"
                       type="number"
+                      required
+
                       value={updatedTeacher.age}
                       onChange={handleInputChange}
                       fullWidth
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <FormControl fullWidth >
+                    <FormControl required fullWidth >
                       <InputLabel id="grades-label">Grade</InputLabel>
                       <Select
                         labelId="grades-label"
@@ -139,7 +142,7 @@ const UpdateTeacher = () => {
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <FormControl fullWidth >
+                    <FormControl required fullWidth >
                       <InputLabel id="subjects-label">Subject</InputLabel>
                       <Select
                         labelId="subjects-label"
