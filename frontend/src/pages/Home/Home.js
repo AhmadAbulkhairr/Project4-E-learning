@@ -1,17 +1,16 @@
+// src/pages/Home/Home.js
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
-import { Button, Typography, Container, Box, Grid, Card, CardContent, TextField, Paper } from '@mui/material';
+import { Button, Typography, Container, Box, Grid, Card, CardContent, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
 import learnoImage from '../../assets/images/element5-digital-OyCl7Y4y0Bk-unsplash.jpg';
 import learnoImage2 from '../../assets/images/priscilla-du-preez-XkKCui44iM0-unsplash.jpg';
 import './Home.css'; 
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import RateReviewIcon from '@mui/icons-material/RateReview';
-import ContactMailIcon from '@mui/icons-material/ContactMail';
 
 const Home = () => {
-
   const faqs = [
     { question: "What is Learno?", answer: "Learno is an e-learning platform that offers various courses for students." },
     { question: "How do I sign up?", answer: "Click on the 'Sign Up' button and fill in the required details." },
@@ -23,9 +22,9 @@ const Home = () => {
     { name: "Jane Smith", review: "I love the interactive content and the support from the instructors." },
     { name: "Michael Lee", review: "A fantastic platform with a wide range of courses. Highly recommended!" },
   ];
+
   return (
     <Container>
-
       <Carousel showThumbs={false} autoPlay infiniteLoop>
         <div>
           <img src={learnoImage} alt="Learno" style={{ maxHeight: '500px', objectFit: 'cover', width: '100%' }} />
@@ -41,19 +40,21 @@ const Home = () => {
           <img src={learnoImage2} alt="Learno" style={{ maxHeight: '500px', objectFit: 'cover', width: '100%' }} />
           <Box p={3} textAlign="center" style={{ background: 'rgba(0, 0, 0, 0.5)', color: 'white' }}>
             <Typography variant="h3" gutterBottom>Learno</Typography>
-            <Typography variant="h6" gutterBottom>best teachers in town</Typography>
+            <Typography variant="h6" gutterBottom>Best teachers in town</Typography>
             <Button variant="contained" color="secondary" component={Link} to="/teachers">
               Teachers
             </Button>
           </Box>
         </div>
       </Carousel>
+
       <Box mt={5}>
         <Typography variant="h4" gutterBottom align="center">Welcome to Learno</Typography>
         <Typography variant="body1" align="center" paragraph>
           Explore our wide range of courses and start learning today. Whether you're a student looking to enhance your skills or a teacher looking to share your knowledge, Learno has something for everyone.
         </Typography>
       </Box>
+
       <Grid container spacing={4} justifyContent="center">
         <Grid item>
           <Button variant="contained" color="primary" component={Link} to="/all-courses">
@@ -66,7 +67,6 @@ const Home = () => {
           </Button>
         </Grid>
       </Grid>
-
 
       <Box mt={5}>
         <Typography variant="h4" gutterBottom>
@@ -98,28 +98,10 @@ const Home = () => {
         </Grid>
       </Box>
 
-      <Box mt={5} mb={5}>
-        <Typography variant="h4" gutterBottom>
-          <ContactMailIcon fontSize="large" style={{ marginRight: 10 }} /> Contact Us
-        </Typography>
-        <Paper elevation={3} style={{ padding: 20 }}>
-          <Box component="form" noValidate autoComplete="off">
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField fullWidth label="Name" variant="outlined" />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField fullWidth label="Email" variant="outlined" />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField fullWidth label="Message" variant="outlined" multiline rows={4} />
-              </Grid>
-              <Grid item xs={12} style={{ textAlign: 'center' }}>
-                <Button variant="contained" color="primary">Send</Button>
-              </Grid>
-            </Grid>
-          </Box>
-        </Paper>
+      <Box mt={5} mb={5} textAlign="center">
+        <Button variant="contained" color="primary" component={Link} to="/contact">
+          Contact Us
+        </Button>
       </Box>
     </Container>
   );

@@ -13,7 +13,8 @@ console.log(process.env);
 //users Router
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
-
+const email = require('./routes/email')
+app.use('/contact',email)
 const teacherRouter = require("./routes/teachers");
 app.use("/teachers", teacherRouter);
 

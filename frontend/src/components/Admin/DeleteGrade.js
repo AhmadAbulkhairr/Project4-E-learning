@@ -1,7 +1,7 @@
 import React, { useContext,useState } from 'react'
 import { Container, TextField, Button, Typography, Grid, Box, Card, CardContent, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import axios from 'axios';
-import { AdminContext } from '../pages/AdminDashboard';
+import { AdminContext } from '../../pages/AdminDashboard';
 
 const DeleteGrade = () => {
     const {grades,setMessage} = useContext(AdminContext)

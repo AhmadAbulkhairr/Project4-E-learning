@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, TextField, Button, Typography, Grid, Box, Card, CardContent, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import axios from 'axios';
 import { useState,useContext } from 'react';
-import { AdminContext } from '../pages/AdminDashboard';
+import { AdminContext } from '../../pages/AdminDashboard';
 const DeleteTeacher = () => {
 
 const [teachers, setTeachers] = useState([])

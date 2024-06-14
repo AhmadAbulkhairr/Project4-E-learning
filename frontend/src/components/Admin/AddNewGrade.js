@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Container, TextField, Button, Typography, Grid, Box, Card, CardContent, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
-import { AdminContext } from '../pages/AdminDashboard';
+import { AdminContext } from '../../pages/AdminDashboard';
 const AddNewGrade = () => {
     const {newGrade,setNewGrade,handleAddGrade} = useContext(AdminContext)
   return (

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Container, TextField, Button, Typography, Grid, Box, Card, CardContent, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
-import { AdminContext } from '../pages/AdminDashboard';
+import { AdminContext } from '../../pages/AdminDashboard';
 const CreateTeacher = () => {
 
     const {teacher,grades,subjects,handleInputChange,

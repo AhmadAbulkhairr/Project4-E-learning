@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Container, TextField, Button, Typography, Grid, Box, Card, CardContent, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import axios from 'axios';
-import CreateTeacher from '../components/CreateTeacher';
+import CreateTeacher from '../components/Admin/CreateTeacher';
 import {createContext } from 'react'
-import AddNewGrade from '../components/AddNewGrade';
-import AddNewSubject from '../components/AddNewSubject';
-import DeleteSubject from '../components/DeleteSubject';
-import DeleteGrade from '../components/DeleteGrade';
-import DeleteTeacher from '../components/DeleteTeacher';
-import UpdateTeacher from '../components/UpdateTeacher';
+import AddNewGrade from '../components/Admin/AddNewGrade';
+import AddNewSubject from '../components/Admin/AddNewSubject';
+import DeleteSubject from '../components/Admin/DeleteSubject';
+import DeleteGrade from '../components/Admin/DeleteGrade';
+import DeleteTeacher from '../components/Admin/DeleteTeacher';
+import UpdateTeacher from '../components/Admin/UpdateTeacher';
 export const AdminContext = createContext();
 
 
