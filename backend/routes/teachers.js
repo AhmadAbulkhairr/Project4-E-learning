@@ -17,7 +17,7 @@ const multipartyMiddleware = multiparty();
 teacherRouter.post("/register", authentication, authorization("Admin") ,multipartyMiddleware,teacherRegister);
 teacherRouter.get("/allTeachers", getAllTeachers);
 teacherRouter.get("/Teacher/:id", getTeacher);
-teacherRouter.put("/Teacher/:id", authentication, authorization("Admin"), updateTeacher);
+teacherRouter.put("/Teacher/:id", authentication, authorization("Admin"),multipartyMiddleware, updateTeacher);
 teacherRouter.delete("/Teacher/:id", authentication, authorization("Admin"), deleteTeacher);
 teacherRouter.get("/teacherinfo",authentication ,authorization("Teacher"),teacherInfo);
 teacherRouter.get("/allTeachers/:id", getAllTeachersBySubject);

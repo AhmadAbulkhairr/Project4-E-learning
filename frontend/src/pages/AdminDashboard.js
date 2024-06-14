@@ -8,6 +8,7 @@ import AddNewSubject from '../components/AddNewSubject';
 import DeleteSubject from '../components/DeleteSubject';
 import DeleteGrade from '../components/DeleteGrade';
 import DeleteTeacher from '../components/DeleteTeacher';
+import UpdateTeacher from '../components/UpdateTeacher';
 export const AdminContext = createContext();
 
 
@@ -201,6 +202,7 @@ const handleDeleteSubjectGrade =  (e) => {
    <DeleteSubject/>
 <DeleteGrade/>
 <DeleteTeacher/>
+<UpdateTeacher/>
     </Container>
     </AdminContext.Provider>
 

@@ -116,24 +116,37 @@ const getTeacher = async (req, res) => {
     }
   };
 
+  
   const updateTeacher = async (req, res) => {
     const { id } = req.params;
     const updateData = req.body;
-  
+    console.log(updateData);
     try {
-      const teacher = await Teacher.findByIdAndUpdate(id, updateData, { new: true }).populate({
-        path: 'user',
-        select: 'name email' 
-      })
-      .populate({
-        path: 'subject',
-        select: 'name',
-        populate: {
-          path: 'grade',
-          select: 'name'
-        }
-      });
+      let imageUrl = null;
+      if (req.files && req.files.image) {
+        const result = await cloudinary.uploader.upload(req.files.image.path, {
+          folder: 'teacher_images',
+        });
+        imageUrl = result.secure_url;
+        updateData.imageUrl = imageUrl; // Add the imageUrl to the update data
+      }
+      console.log(updateData);
+      console.log(id);
 
+      const teacher = await Teacher.findByIdAndUpdate(id, updateData, { new: true })
+        .populate({
+          path: 'user',
+          select: 'name email'
+        })
+        .populate({
+          path: 'subject',
+          select: 'name',
+          populate: {
+            path: 'grade',
+            select: 'name'
+          }
+        });
+  console.log(teacher);
       if (!teacher) {
         return res.status(404).json({
           success: false,
