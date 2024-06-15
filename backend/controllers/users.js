@@ -1,7 +1,51 @@
 const usersModel = require("../models/UserSchema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { OAuth2Client } = require('google-auth-library');
+const Role = require("../models/RoleSchema")
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
+const googleLogin = async (req, res) => {
+  const { token } = req.body;
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const { name, email } = ticket.getPayload();
+
+    let user = await usersModel.findOne({ email });
+    if (!user) {
+      const studentRole = await Role.findOne({ role: 'Student' });
+      if (!studentRole) {
+        return res.status(404).json({ success: false, message: 'Student role not found' });
+      }
+
+      user = new usersModel({ name, email, role: studentRole._id });
+      await user.save();
+    }
+
+    const payload = {
+      userId: user._id,
+      user: user.name,
+      role: user.role,
+    };
+
+    const authToken = jwt.sign(payload, process.env.SECRET, { expiresIn: '1h' });
+    res.status(200).json({
+      success: true,
+      token: authToken,
+      role: user.role,
+      user: user.name,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Google login failed',
+      error: error.message,
+    });
+  }
+};
 
 const register = (req, res) => {
     const { name,
@@ -135,6 +179,6 @@ catch(err){
 module.exports = {
     register,
     login,
-    userInfo
+    userInfo,googleLogin
   };
   

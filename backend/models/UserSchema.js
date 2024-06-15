@@ -15,8 +15,6 @@ const userSchema = new mongoose.Schema({
     },
     password: {
       type: String,
-      required: [true, 'Password is required'],
-      minlength: [6, 'Password must be at least 6 characters long']
     },
     role: {
       type: mongoose.Schema.Types.ObjectId,
@@ -31,7 +29,9 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre("save", async function () {
     this.email = this.email.toLowerCase();
-    this.password = await bcrypt.hash(this.password, 8);
+    if (this.isModified("password") && this.password) {
+      this.password = await bcrypt.hash(this.password, 8);
+  }
   });
 
 module.exports = mongoose.model('User', userSchema);

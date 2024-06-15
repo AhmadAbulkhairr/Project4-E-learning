@@ -24,6 +24,7 @@ const transporter = nodemailer.createTransport({
           if (error) {
             return res.status(500).json({ error: 'Error sending email' });
           } else {
+            console.log(info);
             return res.status(200).json({ message: 'Email sent successfully' });
           }
         });

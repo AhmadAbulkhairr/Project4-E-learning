@@ -42,6 +42,8 @@ const handleRegistered = (e) => {
             setUser (prev => ({...prev,...{name: e.target.value}}) )}} 
           fullWidth
           margin="normal"
+          required
+
         />
         <TextField
           label="Email"
@@ -50,6 +52,8 @@ const handleRegistered = (e) => {
             setUser (prev => ({...prev,...{email: e.target.value}}) )}}
           fullWidth
           margin="normal"
+          required
+
         />
         <TextField
           label="Password"
@@ -59,6 +63,7 @@ const handleRegistered = (e) => {
             setUser (prev => ({...prev,...{password: e.target.value}}) )}}
           fullWidth
           margin="normal"
+          required
         />
         <Button type="submit" variant="contained" color="primary">
           Register

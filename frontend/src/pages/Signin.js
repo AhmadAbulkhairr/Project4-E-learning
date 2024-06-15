@@ -3,6 +3,7 @@ import { Container, TextField, Button, Typography } from '@mui/material';
 import axios from 'axios';
 import { UserContext } from '../App';
 import { useNavigate } from 'react-router-dom';
+import GoogleLoginCom from '../components/GoogleLogin';
 
 const SignIn = () => {
   const {setRole,setToken} = useContext(UserContext)
@@ -60,6 +61,7 @@ const SignIn = () => {
           Login
         </Button>
       </form>
+      <GoogleLoginCom/>
     </Container>
   );
 }
