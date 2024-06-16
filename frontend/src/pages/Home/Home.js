@@ -9,7 +9,7 @@ import learnoImage2 from '../../assets/images/priscilla-du-preez-XkKCui44iM0-uns
 import './Home.css'; 
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import RateReviewIcon from '@mui/icons-material/RateReview';
-
+import MapComponent from "../../components/MapComponent"
 const Home = () => {
   const faqs = [
     { question: "What is Learno?", answer: "Learno is an e-learning platform that offers various courses for students." },
@@ -98,6 +98,12 @@ const Home = () => {
         </Grid>
       </Box>
 
+      <Box mt={5} mb={5}>
+        <Typography variant="h4" gutterBottom align="center">
+          Learno Office Location
+        </Typography>
+        <MapComponent />
+      </Box>
       <Box mt={5} mb={5} textAlign="center">
         <Button variant="contained" color="primary" component={Link} to="/contact">
           Contact Us

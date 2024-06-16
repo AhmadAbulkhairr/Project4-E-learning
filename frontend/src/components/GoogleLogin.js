@@ -11,6 +11,8 @@ const GoogleLoginCom = () => {
   const responseGoogle = async (response) => {
     console.log(response);
 
+    console.log(response.credential);
+
     try {
       const res = await axios.post('http://localhost:5000/users/google-login', {
         token: response.credential,
