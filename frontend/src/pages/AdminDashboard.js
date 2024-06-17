@@ -9,6 +9,8 @@ import DeleteSubject from '../components/Admin/DeleteSubject';
 import DeleteGrade from '../components/Admin/DeleteGrade';
 import DeleteTeacher from '../components/Admin/DeleteTeacher';
 import UpdateTeacher from '../components/Admin/UpdateTeacher';
+import AdminChat from '../components/Admin/AdminChat';
+
 export const AdminContext = createContext();
 
 
@@ -203,6 +205,7 @@ const handleDeleteSubjectGrade =  (e) => {
 <DeleteGrade/>
 <DeleteTeacher/>
 <UpdateTeacher/>
+<AdminChat/>
     </Container>
     </AdminContext.Provider>
 
