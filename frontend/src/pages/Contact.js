@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Container, TextField, Button, Typography, Grid, Paper, Box } from '@mui/material';
 import axios from 'axios';
-import  Chat  from '../components/Chat';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -81,7 +80,6 @@ const Contact = () => {
         </Paper>
       </Box>
 
-      <Chat/>
     </Container>
   );
 };

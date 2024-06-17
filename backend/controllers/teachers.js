@@ -5,7 +5,7 @@ const cloudinary = require('../cloudinaryConfig'); // Path to your Cloudinary co
 
 
 const teacherRegister = async (req, res) => {
-  const { name, email, password, phoneNumber, age,grade, subject } = req.body;
+  const { name, email, password, age,grade, subject } = req.body;
 
   try {
     const teacherRole = await Role.findOne({ role: 'Teacher' });
@@ -13,7 +13,7 @@ const teacherRegister = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Teacher role not found' });
     }
 
-    const user = new User({ name, email, password, role: teacherRole._id });
+    const user = new User({ name, email,phoneNumber ,password, role: teacherRole._id });
     await user.save();
 
     // Cloudinary
@@ -27,7 +27,6 @@ const teacherRegister = async (req, res) => {
 
     const teacher = new Teacher({
       user: user._id,
-      phoneNumber,
       age,
       subject,
       grade,

@@ -48,16 +48,7 @@ const CreateTeacher = () => {
               required
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Phone Number"
-              name="phoneNumber"
-              value={teacher.phoneNumber}
-              onChange={handleInputChange}
-              fullWidth
-              required
-            />
-          </Grid>
+        
           <Grid item xs={12} sm={6}>
             <TextField
               label="Age"

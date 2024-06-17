@@ -52,7 +52,7 @@ const googleLogin = async (req, res) => {
 const register = (req, res) => {
     const { name,
         email,
-        password
+        password,phoneNumber
         } = req.body;
 
         if (!name || !email || !password ) {
@@ -71,7 +71,7 @@ const register = (req, res) => {
 
     const user = new usersModel({name,
         email,
-        password,
+        password,phoneNumber,
 role:"6664a1c3749506adedc47b0e"    });
   
     user

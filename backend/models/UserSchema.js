@@ -21,6 +21,16 @@ const userSchema = new mongoose.Schema({
       ref: 'Role',
       required: [true, 'Role is required']
     },
+    phoneNumber: {
+      type: String,
+      required: [true, 'Phone number is required'],
+      validate: {
+        validator: function(v) {
+          return /^(?:\+962|00962)?7[789]\d{7}$/.test(v);
+        },
+        message: props => `${props.value} is not a valid Jordanian phone number!`
+      }
+    },
     myCourses: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Course'

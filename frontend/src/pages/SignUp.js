@@ -9,6 +9,7 @@ const [user, setUser] = useState({
   name: "",
   password: "",
   email: "",
+  phoneNumber:""
 })
 const [message, setMessage] = useState("")
 
@@ -50,6 +51,16 @@ const handleRegistered = (e) => {
           value={user.email}
           onChange={(e)=> {
             setUser (prev => ({...prev,...{email: e.target.value}}) )}}
+          fullWidth
+          margin="normal"
+          required
+
+        />
+          <TextField
+          label="phoneNumber"
+          value={user.phoneNumber}
+          onChange={(e)=> {
+            setUser (prev => ({...prev,...{phoneNumber: e.target.value}}) )}}
           fullWidth
           margin="normal"
           required
