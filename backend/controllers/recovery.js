@@ -3,8 +3,8 @@ const User = require ("../models/UserSchema")
 
 const twilio = require('twilio');
 
-const accountSid = 'ACc5265e7684f3261db4d6b6e077621e36';
-const authToken = 'f71e3d4fb28e7f4161fc57bce29e4c2d';
+const accountSid = process.env.ACC_SID;
+const authToken = process.env.AUTH_TOKEN;
 const client = twilio(accountSid, authToken);
 
 const passwordREcovery = async (req,res) => {
