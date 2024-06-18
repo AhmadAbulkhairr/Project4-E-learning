@@ -23,7 +23,6 @@ const userSchema = new mongoose.Schema({
     },
     phoneNumber: {
       type: String,
-      required: [true, 'Phone number is required'],
       validate: {
         validator: function(v) {
           return /^(?:\+962|00962)?7[789]\d{7}$/.test(v);

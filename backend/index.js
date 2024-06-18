@@ -10,7 +10,9 @@ app.use(express.json());
 app.use(cors());
 
 app.use ("/password",require("./routes/recovery"))
+//stripe
 
+app.use('/create-payment-intent',require("./routes/stripe"))
 
 // Users Router
 const usersRouter = require("./routes/users");

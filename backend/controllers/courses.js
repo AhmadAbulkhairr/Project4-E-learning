@@ -10,7 +10,6 @@ try {
         path: 'teacher',
         populate: {
           path: 'user',
-          select: 'name email'  
  }
  ,populate:{
     path: 'subject',populate:{
@@ -70,11 +69,10 @@ const createNewCourse = async (req, res) => {
   
 
   const addCourseToUser = async (req, res) => {
-    const userId = req.token.userId;
-    const { id} = req.params;
-  
+    const {id} = req.params;
+
     try {
-      const user = await usersModel.findById(userId);
+      const user = await usersModel.findById(req.token.userId);
       if (!user) {
         return res.status(404).json({
           success: false,
@@ -106,19 +104,20 @@ const createNewCourse = async (req, res) => {
   };
   
   const removeCourseFromUser = async (req,res)=> {
-    const userId = req.token.usersId
     const {id} = req.params
-
+console.log(req.token.userId);
     try {
-        const user = await usersModel.findById(userId)
+        const user = await usersModel.findById(req.token.userId)
         if(!user){
             return res.status(404).json({
                 success: false,
                 message: 'User not found'
               });
         }
-
+console.log(user.myCourses);
         const indexId = user.myCourses.indexOf(id);
+        console.log(indexId);
+
         if (indexId !== -1 ){
         user.myCourses.splice(indexId,1)
       await user.save()
@@ -143,49 +142,40 @@ const createNewCourse = async (req, res) => {
     }
   
   }
-
-  const getAllCoursesByUserId = async (req,res) => {
-    const {id} = req.token.userId;
+  const getAllCoursesByUserId = async (req, res) => {
+    const userId = req.token.userId; 
 
     try {
-const courses = await Course.findById(id).populate({
-    path: 'teacher',
-    populate: {
-      path: 'user',
-      select: 'name email'  
-}
-,populate:{
-path: 'subject',populate:{
-    path:"grade"
-}
+        const user = await usersModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
 
-}
-});
-if (!courses){
-    return res.status(404).json({
-        success: false,
-        message: 'courses not found'
-      });
-}
-res.status(200).json({
-    success: true,
-    result: courses
-})
+        const courses = await Course.find({ _id: { $in: user.myCourses } })
+                                   .populate({
+                                       path: 'teacher',
+                                       populate: {
+                                           path: 'user',
+                                           select: 'name email'
+                                       },
+                          
+                                   });
 
-
-    }
-    catch(err){
+        res.status(200).json({
+            success: true,
+            result: courses
+        });
+    } catch (err) {
         res.status(500).json({
             success: false,
             message: 'Server Error',
             error: err.message
-          });
+        });
     }
-
-
-
-  }
-
+};
 
 
 

@@ -1,65 +1,98 @@
-import React, { useState, useEffect } from 'react';
-import { Container, TextField, Button, Typography, Grid, FormControl, InputLabel, Select, MenuItem, Card, CardContent, Box } from '@mui/material';
+import React, { useState } from 'react';
+import { Card, CardContent, Typography, Grid, TextField, Button, CircularProgress } from '@mui/material';
 import axios from 'axios';
 
-
 const AddCourse = () => {
+  const [course, setCourse] = useState({
+    name: '',
+    price: '',
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-    const [course, setCourse] = useState({
-        name: '',
-        price: '',
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCourse((prevCourse) => ({
+      ...prevCourse,
+      [name]: value,
+    }));
+  };
+
+  const handleAddCourse = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+      const response = await axios.post('http://localhost:5000/courses/course', {
+        name: course.name,
+        price: course.price,
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
       });
 
-      const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setMaterial((prevMaterial) => ({
-          ...prevMaterial,
-          [name]: value,
-        }));
-      };
+      if (response.data.success) {
+        setCourse({
+          name: '',
+          price: '',
+        });
+        setError('');
+        alert('Course added successfully!');
+      } else {
+        setError('Failed to add course');
+      }
+    } catch (error) {
+      console.error('Error adding course:', error);
+      setError('Failed to add course');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-
     <Card>
-    <CardContent>
-      <Typography variant="h6" gutterBottom>
-        Add New course
-      </Typography>
-      <form onSubmit={handleAddCourse} >
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Name"
-              name="name"
-              value={course.name}
-              onChange={handleInputChange}
-              fullWidth
-              required
-            />
-          </Grid>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          Add New Course
+        </Typography>
+        <form onSubmit={handleAddCourse}>
           <Grid container spacing={3}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Price"
-              name="price"
-              value={course.price}
-              onChange={handleInputChange}
-              fullWidth
-              required
-            />
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Name"
+                name="name"
+                value={course.name}
+                onChange={handleInputChange}
+                fullWidth
+                required
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Price"
+                name="price"
+                value={course.price}
+                onChange={handleInputChange}
+                fullWidth
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button type="submit" variant="contained" color="primary" disabled={loading}>
+                {loading ? <CircularProgress size={24} /> : 'Add Course'}
+              </Button>
+            </Grid>
           </Grid>
-        
-          <Grid item xs={12}>
-            <Button type="submit" variant="contained" color="primary">
-              Add Course 
-            </Button>
-          </Grid>
-        </Grid>
-        </Grid>
+        </form>
+        {error && (
+          <Typography variant="body2" color="error" style={{ marginTop: '1rem' }}>
+            {error}
+          </Typography>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
 
-      </form>
-    </CardContent>
-  </Card>  
-   )
-}
-
-export default AddCourse
+export default AddCourse;

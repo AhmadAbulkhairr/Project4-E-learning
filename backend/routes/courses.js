@@ -9,9 +9,9 @@ const authorization = require("../middleware/author");
 
 courseRouter.get("/courses",getAllCourses)
 courseRouter.post('/course',authentication, authorization('Teacher'),createNewCourse)
-courseRouter.put('/addCourse/:id',authentication,addCourseToUser)
-courseRouter.put('/removeCourse/:id',authentication,removeCourseFromUser)
-courseRouter.get("/courses/:id",authentication,getAllCoursesByUserId)
+courseRouter.get('/addCourse/:id',authentication,addCourseToUser)
+courseRouter.delete('/removeCourse/:id',authentication,removeCourseFromUser)
+courseRouter.get("/coursesUser",authentication,getAllCoursesByUserId)
 
 
 

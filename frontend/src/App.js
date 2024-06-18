@@ -1,11 +1,16 @@
 import React from 'react'
+import { Elements } from '@stripe/react-stripe-js';
+
+import { loadStripe } from '@stripe/stripe-js';
+import CheckoutForm from './components/CheckoutForm'
+
 import {createContext,useState, useEffect } from 'react'
 import "@fontsource/roboto";
 import "./App.css";
 import {RouterProvider} from "react-router-dom"
 import { router } from './routers/index';
 export const UserContext = createContext();
-
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 const App = () => {
 
   const [token, setToken] = useState(localStorage.getItem('token') || "");
@@ -26,12 +31,14 @@ useEffect(() => {
   return ( 
   
   <>
+        <Elements stripe={stripePromise}>
+
  <UserContext.Provider value={{role,setRole,setToken,token,user,setUser}}>
 
   <RouterProvider router={router}/>
 
   </UserContext.Provider>
-
+</Elements>
   </>
 
   )

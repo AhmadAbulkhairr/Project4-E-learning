@@ -8,7 +8,13 @@ const MyCourses = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/courses/courses/')
+    axios.get(`http://localhost:5000/courses/coursesUser/`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    }
+    )
       .then((response) => {
         setMyCourses(response.data.result);
         setLoading(false);
@@ -21,7 +27,13 @@ const MyCourses = () => {
 
   const removeFromMyCourses = async (courseId) => {
     try {
-      await axios.delete(`http://localhost:5000/courses/removeCourse/${courseId}`);
+      await axios.delete(`http://localhost:5000/courses/removeCourse/${courseId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+      );
       setMyCourses(myCourses.filter(course => course._id !== courseId)); // Update state after deletion
     } catch (error) {
       console.error('Failed to remove course from My Courses:', error);
@@ -46,8 +58,8 @@ const MyCourses = () => {
                       <Typography variant="h6">{course.name}</Typography>
                       <Typography>Price: {course.price}</Typography>
                       <Typography>Teacher: {course.teacher.user.name}</Typography>
-                      <Typography>Grade: {course.subject.grade.name}</Typography>
-                      <Typography>Subject: {course.subject.name}</Typography>
+                      <Typography>Grade: {course.teacher.grade.name}</Typography>
+                      <Typography>Subject: {course.teacher.subject.name}</Typography>
                     </CardContent>
                     <Button
                       variant="contained"

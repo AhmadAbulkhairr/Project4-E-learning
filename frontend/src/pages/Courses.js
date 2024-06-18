@@ -12,6 +12,7 @@ const Courses = () => {
   useEffect(() => {
     axios.get('http://localhost:5000/courses/courses')
       .then((response) => {
+        console.log(response.data.result);
         setCourses(response.data.result);
         setLoading(false);
       })
@@ -23,7 +24,13 @@ const Courses = () => {
 
   const addToMyCourses = async (courseId) => {
     try {
-      await axios.post(`http://localhost:5000/courses/addCourse/${courseId}`);
+      await axios.get(`http://localhost:5000/courses/addCourse/${courseId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+      );
     } catch (error) {
       console.error('Failed to add course to My Courses:', error);
     }
@@ -43,16 +50,16 @@ const Courses = () => {
               <Card>
                 <CardMedia
                   component="img"
-                  height="140"
-                  image={`http://localhost:5000/${course.teacher.user.image}`} // Adjust URL based on your backend
+                  height="300"
+                  image={`${course.teacher.imageUrl}`} 
                   alt={course.teacher.user.name}
                 />
                 <CardContent>
                   <Typography variant="h6">{course.name}</Typography>
                   <Typography>Price: {course.price}</Typography>
                   <Typography>Teacher: {course.teacher.user.name}</Typography>
-                  <Typography>Grade: {course.subject.grade.name}</Typography>
-                  <Typography>Subject: {course.subject.name}</Typography>
+                  <Typography>Grade: {course.teacher.grade.name}</Typography>
+                  <Typography>Subject: {course.teacher.subject.name}</Typography>
                 </CardContent>
                 {token&&<Button
                   variant="contained"

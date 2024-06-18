@@ -31,7 +31,7 @@ return (
             Grades
             </Typography>    
         </IconButton>
-        <IconButton color="inherit" component={Link} to="/courses">
+        <IconButton color="inherit" component={Link} to="/all-courses">
           <SchoolIcon  />
           <Typography marginLeft={0.5} variant='h6' >
           Courses
@@ -49,9 +49,9 @@ return (
                 <DashboardIcon />
               </IconButton>
             )}
-            <IconButton color="inherit" component={Link} to="/my-courses">
+            {role==="Student"&&(<IconButton color="inherit" component={Link} to="/my-courses">
               <SchoolIcon />
-            </IconButton>
+            </IconButton>)}
             <IconButton color="inherit" onClick={signOut}>
               <LogoutIcon />
             </IconButton>
