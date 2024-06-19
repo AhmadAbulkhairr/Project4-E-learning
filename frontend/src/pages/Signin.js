@@ -52,7 +52,6 @@ const handlePasswordRecovery = (e) => {
   axios.post('http://localhost:5000/password/password-recovery', { email: recoveryEmail })
     .then((response) => {
       setRecoveryMessage(response.data.message);
-      setRecoveryEmail('');
     })
     .catch((error) => {
       console.error('Password recovery error', error);

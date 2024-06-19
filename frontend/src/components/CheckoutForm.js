@@ -80,8 +80,8 @@ const CheckoutForm = ({ courses }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      {error&&<p>${error}</p>
-}
+           {error && <p color="error">{error}</p>}
+
       <div>
         <label>
           Name:

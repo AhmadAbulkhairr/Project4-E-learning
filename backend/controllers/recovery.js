@@ -1,11 +1,12 @@
 
 const User = require ("../models/UserSchema")
+const bcrypt = require("bcryptjs");
 
 const twilio = require('twilio');
 
 const accountSid = process.env.ACC_SID;
 const authToken = process.env.AUTH_TOKEN;
-const client = twilio(accountSid, authToken);
+const client = twilio(accountSid,authToken);
 
 const passwordREcovery = async (req,res) => {
     const { email } = req.body;
@@ -21,11 +22,11 @@ const passwordREcovery = async (req,res) => {
   
       user.passwordResetCode = verificationCode;
       await user.save();
-  
+  console.log(user);
       await client.messages.create({
         body: `Your verification code for password recovery is ${verificationCode}`,
         to: user.phoneNumber,  
-        from: '++12084719630'
+        from: '+17792091850'
       });
   
       res.status(200).json({ message: 'Verification code sent successfully' });
@@ -37,23 +38,22 @@ const passwordREcovery = async (req,res) => {
 
 const resetPassword = async (req, res) => {
     const { email, verificationCode, newPassword } = req.body;
-  
+  console.log(req.body);
     try {
       const user = await User.findOne({ email });
   
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
-  
-      // Validate the verification code
+      console.log(user.passwordResetCode);
+
       if (user.passwordResetCode !== verificationCode) {
         return res.status(400).json({ message: 'Invalid verification code' });
       }
   
       user.password = newPassword;
       user.passwordResetCode = undefined;
-      
-      user.password = await bcrypt.hash(newPassword, 8);
+      console.log(user);
   
       await user.save();
   

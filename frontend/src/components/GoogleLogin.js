@@ -5,7 +5,7 @@ import { UserContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 
 const GoogleLoginCom = () => {
-  const { setRole, setToken } = useContext(UserContext);
+  const { setRole, setToken ,setUser} = useContext(UserContext);
   const navigate = useNavigate();
 
   const responseGoogle = async (response) => {
@@ -22,6 +22,8 @@ const GoogleLoginCom = () => {
       setToken(localStorage.getItem('token'));
       localStorage.setItem('role', res.data.role.role);
       setRole(localStorage.getItem('role'));
+      localStorage.setItem('user', res.data.user);
+      setUser(localStorage.getItem('user'));
 
       navigate('/');
     } catch (error) {

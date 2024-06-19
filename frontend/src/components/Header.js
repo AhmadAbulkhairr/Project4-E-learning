@@ -6,14 +6,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
 
 const Header = () => {
-  const { token, role,setToken,setRole } = useContext(UserContext);
+  const { token, role,setToken,setRole,setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const signOut = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
     localStorage.removeItem("role");
     setToken("")
     setRole("")
+    setUser("")
+
 }
 return (
   <AppBar position="static" color="primary" style={{ background: '#6200ea' }}>

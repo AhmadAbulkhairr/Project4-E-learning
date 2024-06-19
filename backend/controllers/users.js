@@ -117,6 +117,7 @@ role:"6664a1c3749506adedc47b0e"    });
           });
         }
         try {
+          console.log(password);
           const valid = await bcrypt.compare(password, result.password);
           if (!valid) {
             return res.status(403).json({
