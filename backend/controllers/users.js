@@ -25,8 +25,10 @@ const googleLogin = async (req, res) => {
 
       user = new usersModel({ name, email, role: studentRole._id });
       await user.save();
-    }
+      console.log(user);
 
+    }
+console.log(user);
     const payload = {
       userId: user._id,
       user: user.name,
@@ -34,10 +36,13 @@ const googleLogin = async (req, res) => {
     };
 
     const authToken = jwt.sign(payload, process.env.SECRET, { expiresIn: '1h' });
+
+    let result = await usersModel.findOne({ email }).populate("role", "-_id -__v")
+    
     res.status(200).json({
       success: true,
       token: authToken,
-      role: user.role,
+      role: result.role,
       user: user.name,
     });
   } catch (error) {

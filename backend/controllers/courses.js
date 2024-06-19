@@ -4,24 +4,20 @@ const Course = require ('../models/CoursesSchema')
 const Teacher = require("../models/TeacherSchema")
 
 const getAllCourses = async (req,res) => {
-
-try {
+  try {
     const courses = await Course.find().populate({
         path: 'teacher',
-        populate: {
-          path: 'user',
- }
- ,populate:{
-    path: 'subject',populate:{
-        path:"grade"
-    }
+        populate: [
+            { path: 'user', select: 'name' },
+            { path: 'grade', select: 'name' },
+            { path: 'subject', select: 'name' }
+        ]
+    });
 
- }
- });
     res.status(200).json({
         success: true,
         result: courses
-    })
+    });
 }
 catch (err){
     res.status(500).json({
@@ -155,14 +151,14 @@ console.log(user.myCourses);
         }
 
         const courses = await Course.find({ _id: { $in: user.myCourses } })
-                                   .populate({
-                                       path: 'teacher',
-                                       populate: {
-                                           path: 'user',
-                                           select: 'name email'
-                                       },
-                          
-                                   });
+        .populate({
+          path: 'teacher',
+          populate: [
+              { path: 'user', select: 'name' },
+              { path: 'grade', select: 'name' },
+              { path: 'subject', select: 'name' }
+          ]
+      });
 
         res.status(200).json({
             success: true,

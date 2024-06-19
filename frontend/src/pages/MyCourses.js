@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Grid, Card, CardContent, Typography, Button, CircularProgress } from '@mui/material';
-import CheckoutForm from '../components/CheckoutForm'; // Import your CheckoutForm component
+import CheckoutForm from '../components/CheckoutForm'; 
 
 const MyCourses = () => {
   const [myCourses, setMyCourses] = useState([]);
