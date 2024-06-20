@@ -9,7 +9,6 @@ const {
   updateMaterial,
   deleteMaterial,getAllMaterialsByTeacherId
 } = require('../controllers/materials');
-const {createNewReview} = require("../controllers/review")
 
 const authentication = require('../middleware/authen');
 const authorization = require('../middleware/author');

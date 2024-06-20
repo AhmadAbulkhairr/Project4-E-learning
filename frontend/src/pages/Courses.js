@@ -2,6 +2,7 @@ import React, { useState, useContext,useEffect } from 'react';
 import axios from 'axios';
 import { Grid, Card, CardContent, Typography, CardMedia, Button, CircularProgress } from '@mui/material';
 import { UserContext } from '../App';
+import { Link } from 'react-router-dom';
 
 
 const Courses = () => {
@@ -47,7 +48,7 @@ const Courses = () => {
         <Grid container spacing={2}>
           {courses.map((course) => (
             <Grid item xs={12} sm={6} md={4} key={course._id}>
-              <Card>
+              <Card component={Link} to={`/all-courses/${course._id}`} >
                 <CardMedia
                   component="img"
                   height="300"

@@ -1,19 +1,18 @@
 const Review = require("../models/ReviewsSchema");
-const Material = require('../models/MaterialSchema');
+const Course = require('../models/CoursesSchema');
 
-// This function creates a new review for a specific material
+// This function creates a new review for a specific course
 const createNewReview = (req, res) => {
   const id = req.params.id;
-  const { review } = req.body;
+  const { review , reviewerName } = req.body;
   const reviewer = req.token.userId;
-  const reviewerName = req.token.user;
 
-  Material.findById(id)
-    .then((material) => {
-      if (!material) {
+  Course.findById(id)
+    .then((result) => {
+      if (!result) {
         return res.status(404).json({
           success: false,
-          message: 'Material not found',
+          course: 'course not found',
         });
       }
 
@@ -24,9 +23,9 @@ const createNewReview = (req, res) => {
       });
 
       newReview.save()
-        .then((result) => {
-          material.reviews.push(result._id);
-          material.save()
+        .then((resultReview) => {
+          result.reviews.push(resultReview._id);
+          result.save()
             .then(() => {
               res.status(201).json({
                 success: true,
@@ -59,4 +58,5 @@ const createNewReview = (req, res) => {
     });
 };
 
-module.exports = { createNewReview };
+module.exports = { createNewReview
+ };

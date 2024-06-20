@@ -173,6 +173,42 @@ console.log(user.myCourses);
     }
 };
 
+const getCourseByID = async (req, res) => {
+  const {id} = req.params; 
+
+  try {
+      const course = await Course.findById(id).populate({
+        path: 'teacher',
+        populate: [
+            { path: 'user', select: 'name' },
+            { path: 'grade', select: 'name' },
+            { path: 'subject', select: 'name' }
+        ]
+    }).populate("review")
+;
+      if (!course) {
+          return res.status(404).json({
+              success: false,
+              message: 'course not found'
+          });
+      }
+
+      
+
+      res.status(200).json({
+          success: true,
+          result: course
+      });
+  } catch (err) {
+      res.status(500).json({
+          success: false,
+          message: 'Server Error',
+          error: err.message
+      });
+  }
+};
 
 
-module.exports = {getAllCourses,createNewCourse,addCourseToUser,removeCourseFromUser,getAllCoursesByUserId}
+
+
+module.exports = {getAllCourses,getCourseByID,createNewCourse,addCourseToUser,removeCourseFromUser,getAllCoursesByUserId}

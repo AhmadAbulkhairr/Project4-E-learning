@@ -91,7 +91,14 @@ const getAllMaterialsByTeacherId = async (req,res) => {
     const {id} = req.params
 
     try {
-        const allMaterials = await Material.find({teacher: id}).populate({path:'teacher',populate:{ path:"user"},populate:{ path:"subject",populate:{path:"grade"}}})
+        const allMaterials = await Material.find({teacher: id}).populate({
+          path: 'teacher',
+          populate: [
+              { path: 'user', select: 'name' },
+              { path: 'grade', select: 'name' },
+              { path: 'subject', select: 'name' }
+          ]
+      });
 
         
     if(!allMaterials){

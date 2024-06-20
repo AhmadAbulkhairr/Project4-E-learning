@@ -16,6 +16,7 @@ import Teachers from '../pages/Teachers';
 import Materials from '../pages/Materials';
 import Contact from '../pages/Contact';
 import Courses from '../pages/Courses';
+import Course from '../pages/Course';
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,7 @@ export const router = createBrowserRouter([
       { path: 'contact', element: <Contact /> },
       { path: 'teachers', element: <Teachers /> },
       { path: 'all-courses', element: <Courses /> },
+      { path: 'all-courses/:id', element: <Course /> },
 
       { 
         path: 'admin-dashboard', 
