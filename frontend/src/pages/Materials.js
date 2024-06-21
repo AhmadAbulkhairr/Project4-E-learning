@@ -13,7 +13,6 @@ import {
     CircularProgress
 } from '@mui/material';
 import BookIcon from '@mui/icons-material/Book';
-import { PDFViewer } from '@react-pdf/renderer';
 
 const Materials = () => {
     const { id } = useParams();

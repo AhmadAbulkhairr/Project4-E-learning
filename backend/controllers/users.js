@@ -35,7 +35,7 @@ console.log(user);
       role: user.role,
     };
 
-    const authToken = jwt.sign(payload, process.env.SECRET, { expiresIn: '1h' });
+    const authToken = jwt.sign(payload, process.env.SECRET);
 
     let result = await usersModel.findOne({ email }).populate("role", "-_id -__v")
     

@@ -18,9 +18,9 @@ const Home = () => {
   ];
 
   const reviews = [
-    { name: "John Doe", review: "Learno has transformed the way I learn. The courses are comprehensive and easy to follow." },
-    { name: "Jane Smith", review: "I love the interactive content and the support from the instructors." },
-    { name: "Michael Lee", review: "A fantastic platform with a wide range of courses. Highly recommended!" },
+    { name: "ahmad kheir", review: "Learno has transformed the way I learn. The courses are comprehensive and easy to follow." },
+    { name: "Roaa wael", review: "I love the interactive content and the support from the instructors." },
+    { name: "khalid", review: "A fantastic platform with a wide range of courses. Highly recommended!" },
   ];
 
   return (

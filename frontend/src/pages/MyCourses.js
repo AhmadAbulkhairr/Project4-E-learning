@@ -34,7 +34,7 @@ const MyCourses = () => {
         },
       }
       );
-      setMyCourses(myCourses.filter(course => course._id !== courseId)); // Update state after deletion
+      setMyCourses(myCourses.filter(course => course._id !== courseId)); 
     } catch (error) {
       console.error('Failed to remove course from My Courses:', error);
     }

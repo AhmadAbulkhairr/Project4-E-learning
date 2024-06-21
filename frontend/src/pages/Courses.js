@@ -62,14 +62,15 @@ const Courses = () => {
                   <Typography>Grade: {course.teacher.grade.name}</Typography>
                   <Typography>Subject: {course.teacher.subject.name}</Typography>
                 </CardContent>
-                {token&&<Button
+               
+              </Card>
+              {token&&<Button
                   variant="contained"
                   color="primary"
                   onClick={() => addToMyCourses(course._id)}
                 >
                   Add to My Courses
                 </Button>}
-              </Card>
             </Grid>
           ))}
         </Grid>

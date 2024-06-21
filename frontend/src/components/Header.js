@@ -6,18 +6,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
 
 const Header = () => {
-  const { token, role,setToken,setRole,setUser } = useContext(UserContext);
+  const { token, role,setToken,setRole,setUser,setUserId } = useContext(UserContext);
   const navigate = useNavigate();
 
   const signOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("id");
 
     localStorage.removeItem("role");
     setToken("")
     setRole("")
     setUser("")
-
+    setUserId("")
 }
 return (
   <AppBar position="static" color="primary" style={{ background: '#6200ea' }}>
@@ -46,15 +47,22 @@ return (
             {role === "Admin" && (
               <IconButton color="inherit" component={Link} to="/admin-dashboard">
                 <DashboardIcon />
+                <Typography marginLeft={0.5} variant='h6' >
+                Admin Dashboard
+            </Typography> 
               </IconButton>
             )}
             {role === "Teacher" && (
               <IconButton color="inherit" component={Link} to="/teacher-dashboard">
                 <DashboardIcon />
-              </IconButton>
+                <Typography marginLeft={0.5} variant='h6' >
+                Teacher Dashboard
+            </Typography>               </IconButton>
             )}
             {role==="Student"&&(<IconButton color="inherit" component={Link} to="/my-courses">
               <SchoolIcon />
+              <Typography marginLeft={0.5} variant='h6' >
+My Courses            </Typography>    
             </IconButton>)}
             <IconButton color="inherit" onClick={signOut}>
               <LogoutIcon />

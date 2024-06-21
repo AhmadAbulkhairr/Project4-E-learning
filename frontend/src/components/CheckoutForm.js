@@ -57,7 +57,6 @@ const CheckoutForm = ({ courses }) => {
             phone: credentials.phone,
             address: {
               line1: credentials.address,
-              postal_code: '12345'  
 
             },
           },
