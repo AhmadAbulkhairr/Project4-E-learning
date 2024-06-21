@@ -21,11 +21,11 @@ import {
 
 const Course = () => {
     const { id } = useParams();
-    const { token, user } = useContext(UserContext);
+    const { token, user ,userId } = useContext(UserContext);
     const [course, setCourse] = useState(null);
     const [review, setReview] = useState({
         review: '',
-        reviewerName: user.name 
+        reviewerName: user 
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -43,7 +43,7 @@ const Course = () => {
     }, [id]);
 
     const handleReviewChange = (e) => {
-        setReview({ ...review, [e.target.name]: e.target.value });
+        setReview({ ...review, review:(e.target.value)});
     };
 
     const createNewReview = async () => {
@@ -75,6 +75,35 @@ const Course = () => {
         );
     }
 
+    const addToMyCourses = async (courseId) => {
+        try {
+          await axios.get(`http://localhost:5000/courses/addCourse/${courseId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          }
+          );
+        } catch (error) {
+          console.error('Failed to add course to My Courses:', error);
+        }
+      };
+
+
+      const DeleteReview = async (course,review) => {
+    
+        try {
+            await axios.put(`http://localhost:5000/courses/review/${course}`, {review}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            window.location.reload();
+
+        } catch (error) {
+            console.error('Failed to add review:', error);
+        }
+      }
     return (
         <Container>
             <Typography variant="h4">{course.name}</Typography>
@@ -85,6 +114,13 @@ const Course = () => {
             <Box mt={2}>
                 {token && (
                     <Box>
+                         <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => addToMyCourses(course._id)}
+                >
+                  Add to My Courses
+                </Button>
                         <Typography variant="h6">Add Your Review</Typography>
                         <FormControl fullWidth>
                             <TextField
@@ -119,6 +155,15 @@ const Course = () => {
                                 <strong>{review.reviewerName}</strong>
                             </Typography>
                             <Typography variant="body2">{review.review}</Typography>
+                            { userId === review.reviewer &&<Button
+                            variant="contained"
+                            color="primary"
+                            onClick={()=>DeleteReview(course._id,review._id)}
+                            style={{ marginTop: '1rem' }}
+                        >
+Delete Review                         </Button>
+
+                            }
                         </Box>
                     ))
                 ) : (

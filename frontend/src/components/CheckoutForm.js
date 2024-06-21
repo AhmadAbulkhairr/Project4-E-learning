@@ -9,7 +9,7 @@ const CheckoutForm = ({ courses }) => {
     name: "",
     email: "",
     phone: "",
-    address: ""
+    address: "",
   });
   const [error, setError] = useState("")
   const stripe = useStripe();
@@ -39,13 +39,12 @@ const CheckoutForm = ({ courses }) => {
     }
 
     setLoading(true);
-
     try {
+
       const { data } = await axios.post('http://localhost:5000/create-payment-intent', {
         amount: totalAmount,
         currency: 'usd', 
-        credentials,
-      });
+              });
 
       const clientSecret = data.clientSecret;
 
@@ -58,6 +57,8 @@ const CheckoutForm = ({ courses }) => {
             phone: credentials.phone,
             address: {
               line1: credentials.address,
+              postal_code: '12345'  
+
             },
           },
         },
@@ -80,7 +81,7 @@ const CheckoutForm = ({ courses }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-           {error && <p color="error">{error}</p>}
+           {error && <p color="error">{error.message}</p>}
 
       <div>
         <label>
@@ -130,12 +131,14 @@ const CheckoutForm = ({ courses }) => {
           />
         </label>
       </div>
+    
       {courses && courses.length > 0 && (
         <div>
           <h3>Total Amount: ${Number(totalAmount).toFixed(2)}</h3>
         </div>
       )}
-      <CardElement />
+      <CardElement 
+      options = {{hidePostalCode: true}} />
       <button type="submit" disabled={!stripe || loading}>
         {loading ? 'Processing...' : 'Pay Now'}
       </button>

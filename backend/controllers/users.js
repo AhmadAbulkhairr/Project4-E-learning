@@ -44,6 +44,7 @@ console.log(user);
       token: authToken,
       role: result.role,
       user: user.name,
+      userID:result._id
     });
   } catch (error) {
     res.status(500).json({
@@ -138,6 +139,7 @@ role:"6664a1c3749506adedc47b0e"    });
             token: token,
             role: result.role,
             user: result.name,
+            userID:result._id
           });
         } catch (error) {
           throw new Error(error.message);

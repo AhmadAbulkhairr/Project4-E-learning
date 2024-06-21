@@ -1,7 +1,7 @@
 const express = require('express');
 const courseRouter = express.Router();
 const {getAllCourses,createNewCourse,getCourseByID,addCourseToUser,removeCourseFromUser,getAllCoursesByUserId} = require("../controllers/courses")
-const {createNewReview} = require("../controllers/review")
+const {createNewReview,deleteReview} = require("../controllers/review")
 
 
 
@@ -16,6 +16,7 @@ courseRouter.get("/coursesUser",authentication,getAllCoursesByUserId)
 
 courseRouter.get("/course/:id",getCourseByID)
 courseRouter.post("/review/:id",authentication,createNewReview)
+courseRouter.put("/review/:id",authentication,deleteReview)
 
 
 module.exports = courseRouter;

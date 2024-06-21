@@ -1,22 +1,12 @@
 const stripe = require('stripe')(process.env.SECRET_STRIPE);
 
 const createStripe = async (req, res) => {
-  const { amount, currency, credentials } = req.body;
+  const { amount, currency } = req.body;
   
   try {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount * 100, 
-      currency: currency,
-      payment_method_data: {
-        billing_details: {
-          name: credentials.name,
-          email: credentials.email,
-          phone: credentials.phone,
-          address: {
-            line1: credentials.address,
-          },
-        },
-      },
+      currency: currency,     
     });
   
     res.status(200).json({ clientSecret: paymentIntent.client_secret });

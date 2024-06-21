@@ -175,17 +175,20 @@ console.log(user.myCourses);
 
 const getCourseByID = async (req, res) => {
   const {id} = req.params; 
-
+console.log(id);
   try {
-      const course = await Course.findById(id).populate({
+    const course = await Course.findById(id)
+    .populate({
         path: 'teacher',
         populate: [
             { path: 'user', select: 'name' },
             { path: 'grade', select: 'name' },
             { path: 'subject', select: 'name' }
         ]
-    }).populate("review")
+    })
+    .populate('reviews');
 ;
+console.log(course);
       if (!course) {
           return res.status(404).json({
               success: false,

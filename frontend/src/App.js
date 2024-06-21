@@ -14,16 +14,19 @@ const App = () => {
 
   const [token, setToken] = useState(localStorage.getItem('token') || "");
   const [role, setRole] = useState(localStorage.getItem('role') || "");
-  const [user, setUser] = useState(localStorage.getItem('role') || "");
+  const [user, setUser] = useState(localStorage.getItem('user') || "");
+  const [userId, setUserId] = useState(localStorage.getItem('id') || "");
 
 useEffect(() => {
+  const storedId = localStorage.getItem('id');
+
   const storedUser = localStorage.getItem('user');
 
   const storedToken = localStorage.getItem('token');
   const storedRole = localStorage.getItem('role');
   if (storedToken) setToken(storedToken);
-  if (storedUser) setToken(storedToken);
-
+  if (storedUser) setUser(storedUser);
+if (storedId) setUserId (storedId)
   if (storedRole) setRole(storedRole);
 }, []);
 
@@ -32,7 +35,7 @@ useEffect(() => {
   <>
         <Elements stripe={stripePromise}>
 
- <UserContext.Provider value={{role,setRole,setToken,token,user,setUser}}>
+ <UserContext.Provider value={{role,setRole,setToken,token,user,setUser,userId,setUserId}}>
 
   <RouterProvider router={router}/>
 

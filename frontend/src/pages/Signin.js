@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import GoogleLoginCom from '../components/GoogleLogin';
 
 const SignIn = () => {
-  const {setRole,setToken,setUser} = useContext(UserContext)
+  const {setRole,setToken,setUser,setUserId} = useContext(UserContext)
 
   const [login, setLogin] = useState({email:"",password:""})
 
@@ -26,9 +26,10 @@ const SignIn = () => {
     e.preventDefault();
 
     axios.post('http://localhost:5000/users/login', login).then((result)=>{
-
+      localStorage.setItem('id', result.data.userID);
+      console.log(result.data.userID); 
+      setUserId(localStorage.getItem('id'))
       localStorage.setItem('token', result.data.token); 
-
       setToken( localStorage.getItem('token'))
       localStorage.setItem('role',result.data.role.role); 
       setRole( localStorage.getItem('role'))
