@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Card, CardContent, Typography, Grid, TextField, Button, CircularProgress } from '@mui/material';
 import axios from 'axios';
+import { Description } from '@mui/icons-material';
 
 const AddCourse = () => {
   const [course, setCourse] = useState({
     name: '',
     price: '',
+    description:""
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -63,6 +65,16 @@ const AddCourse = () => {
                 label="Name"
                 name="name"
                 value={course.name}
+                onChange={handleInputChange}
+                fullWidth
+                required
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="description"
+                name="description"
+                value={course.description}
                 onChange={handleInputChange}
                 fullWidth
                 required

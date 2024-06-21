@@ -57,6 +57,7 @@ const Courses = () => {
                 />
                 <CardContent>
                   <Typography variant="h6">{course.name}</Typography>
+                  <Typography variant="body1" color="textSecondary">{course.description}</Typography>
                   <Typography>Price: {course.price}</Typography>
                   <Typography>Teacher: {course.teacher.user.name}</Typography>
                   <Typography>Grade: {course.teacher.grade.name}</Typography>

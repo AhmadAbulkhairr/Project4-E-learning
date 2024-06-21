@@ -29,8 +29,8 @@ catch (err){
 
 }
 const createNewCourse = async (req, res) => {
-    const { name, price } = req.body;
-  
+    const { name, description,price } = req.body;
+
     try {
 
             const teacher = await Teacher.findOne({ user: req.token.userId });
@@ -42,7 +42,8 @@ const createNewCourse = async (req, res) => {
       const newCourse = new Course({
         name,
         teacher: teacher._id,
-        price
+        price,
+        description
       });
 
       
