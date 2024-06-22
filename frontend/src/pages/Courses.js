@@ -1,6 +1,6 @@
 import React, { useState, useContext,useEffect } from 'react';
 import axios from 'axios';
-import { Grid, Card, CardContent, Typography, CardMedia, Button, CircularProgress } from '@mui/material';
+import { Grid, Card, CardContent, Typography, CardMedia, Button, CircularProgress, Container } from '@mui/material';
 import { UserContext } from '../App';
 import { Link } from 'react-router-dom';
 
@@ -38,17 +38,18 @@ const Courses = () => {
   };
 
   return (
-    <div>
-      <h2>All Courses</h2>
+    <Container>
+
+      <h2 style={{ textAlign:"center"}}>All Courses</h2>
       {loading ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <CircularProgress />
         </div>
       ) : (
-        <Grid container spacing={2}>
+        <Grid container  spacing={2}>
           {courses.map((course) => (
             <Grid item xs={12} sm={6} md={4} key={course._id}>
-              <Card component={Link} to={`/all-courses/${course._id}`} >
+              <Card component={Link} to={`/all-courses/${course._id}`} style={{ textDecoration: 'none' }}  >
                 <CardMedia
                   component="img"
                   height="300"
@@ -76,7 +77,7 @@ const Courses = () => {
           ))}
         </Grid>
       )}
-    </div>
+      </Container>
   );
 };
 

@@ -2,11 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../App';
+import RateReviewIcon from '@mui/icons-material/RateReview';
+import ReviewsIcon from '@mui/icons-material/Reviews';
 import {
     Container,
     Typography,
     Grid,
     Card,
+    
     CardContent,
     Box,
     Button,
@@ -149,9 +152,11 @@ const Course = () => {
             </Box>
             <Box mt={4}>
                 <Typography variant="h6">Reviews</Typography>
+                <ReviewsIcon/>
                 {course.reviews.length > 0 ? (
                     course.reviews.map((review) => (
                         <Box key={review._id} mt={2} p={2} boxShadow={1}>
+<RateReviewIcon/>
                             <Typography variant="body1">
                                 <strong>{review.reviewerName}</strong>
                             </Typography>

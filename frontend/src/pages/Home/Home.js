@@ -2,14 +2,20 @@
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
-import { Button, Typography, Container, Box, Grid, Card, CardContent, Paper } from '@mui/material';
+import { Button, Typography, Container, Box, Grid, Card, CardContent, Paper, CardMedia } from '@mui/material';
 import { Link } from 'react-router-dom';
 import learnoImage from '../../assets/images/element5-digital-OyCl7Y4y0Bk-unsplash.jpg';
 import learnoImage2 from '../../assets/images/priscilla-du-preez-XkKCui44iM0-unsplash.jpg';
+import omar from '../../assets/images/omar.jpg'
+import islam from '../../assets/images/islam.jpg'
+import yousef from '../../assets/images/yousef.jpg'
+import chat from '../../assets/images/chat.jpg'
+
 import './Home.css'; 
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import MapComponent from "../../components/MapComponent"
+import { Description } from '@mui/icons-material';
 const Home = () => {
   const faqs = [
     { question: "What is Learno?", answer: "Learno is an e-learning platform that offers various courses for students." },
@@ -22,6 +28,14 @@ const Home = () => {
     { name: "Roaa wael", review: "I love the interactive content and the support from the instructors." },
     { name: "khalid", review: "A fantastic platform with a wide range of courses. Highly recommended!" },
   ];
+  
+  const teachers = [
+    { name: "Omar", bio: "a teacher who deeply cares about his students with more than 6 years experience." ,img:omar},
+    { name: "Islam", bio: " a professional who teaches students based on national curriculum guidelines within their specialist subject areas.",img:islam },
+    { name: "Yousef", bio: "on of the Top 3 teachers in learno based on his students results",img:yousef },
+  ];
+
+  
 
   return (
     <Container>
@@ -41,8 +55,18 @@ const Home = () => {
           <Box p={3} textAlign="center" style={{ background: 'rgba(0, 0, 0, 0.5)', color: 'white' }}>
             <Typography variant="h3" gutterBottom>Learno</Typography>
             <Typography variant="h6" gutterBottom>Best teachers in town</Typography>
-            <Button variant="contained" color="secondary" component={Link} to="/teachers">
+            <Button variant="contained" color="primary" component={Link} to="/teachers">
               Teachers
+            </Button>
+          </Box>
+        </div>
+        <div>
+          <img src={chat} alt="Learno" style={{ maxHeight: '500px', objectFit: 'cover', width: '100%' }} />
+          <Box p={3} textAlign="center" style={{ background: 'rgba(0, 0, 0, 0.5)', color: 'white' }}>
+            <Typography variant="h3" gutterBottom>Learno</Typography>
+            <Typography variant="h6" gutterBottom>place to chat with your mates and teachers</Typography>
+            <Button variant="contained" color="success" component={Link} to="/chat">
+              Chat
             </Button>
           </Box>
         </div>
@@ -79,6 +103,32 @@ const Home = () => {
           </Paper>
         ))}
       </Box>
+     
+      <Box mt={5}>
+        <Typography variant="h4" gutterBottom align="center">
+          Teacher Spotlight
+        </Typography>
+        <Grid container spacing={4}>
+          {teachers.map((teacher, index) => (
+            <Grid item key={index} xs={12} sm={6} md={4}>
+              <Card elevation={3} component={Link} to= "/teachers" style={{ textDecoration: 'none' }} >
+                <CardMedia
+                  component="img"
+                  height="400"
+                  image={teacher.img}
+                  alt={teacher.name}
+                />
+                <CardContent>
+                  <Typography variant="h6" style={{ fontWeight: 600 }}>{teacher.name}</Typography>
+                  <Typography variant="body1" color="textSecondary">{teacher.bio}</Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+
+
 
       <Box mt={5}>
         <Typography variant="h4" gutterBottom>

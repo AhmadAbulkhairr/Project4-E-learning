@@ -17,6 +17,7 @@ import Materials from '../pages/Materials';
 import Contact from '../pages/Contact';
 import Courses from '../pages/Courses';
 import Course from '../pages/Course';
+import Chat from '../pages/Chat';
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +35,7 @@ export const router = createBrowserRouter([
       { path: 'teachers', element: <Teachers /> },
       { path: 'all-courses', element: <Courses /> },
       { path: 'all-courses/:id', element: <Course /> },
+      { path: 'chat', element: <Chat /> },
 
       { 
         path: 'admin-dashboard', 
