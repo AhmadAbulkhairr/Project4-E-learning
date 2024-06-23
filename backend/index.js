@@ -32,6 +32,9 @@ app.use('/create-payment-intent',require("./routes/stripe"))
 // Users Router
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
+
+const ChatRouter = require("./routes/Chat");
+app.use("/chat", ChatRouter);
 const email = require('./routes/email')
 app.use('/contact', email);
 const teacherRouter = require("./routes/teachers");

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import io from 'socket.io-client';
 import { UserContext } from '../App';
+import axios from 'axios';
 import {
   Box,
   Container,
@@ -20,36 +21,43 @@ import SendIcon from '@mui/icons-material/Send';
 const socket = io('http://localhost:5000');
 
 const Chat = () => {
-  const { user } = useContext(UserContext);
+  const { user, role } = useContext(UserContext);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const [room, setRoom] = useState('general'); // Default room
+  const [room, setRoom] = useState('general'); 
 
   useEffect(() => {
-    console.log(socket);
-    socket.emit('joinRoom', { room, user: user });
-    console.log(socket);
+    const fetchChatHistory = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/chat/history/${room}`);
+        setMessages(response.data);
+      } catch (error) {
+        console.error('Error fetching chat history:', error);
+      }
+    };
 
-    socket.on('receiveMessage', ({ message, sender }) => {
-      setMessages(prevMessages => [...prevMessages, { message, sender }]);
-    });
-    console.log(socket);
+    fetchChatHistory();
 
-    socket.on('userJoined', ({ user, message }) => {
-      setMessages(prevMessages => [...prevMessages, { message, sender: 'system' }]);
+    socket.emit('joinRoom', { room, user, role });
+
+    socket.on('receiveMessage', ({ message, sender, role }) => {
+      setMessages(prevMessages => [...prevMessages, { message, sender, role }]);
     });
-    console.log(socket);
+
+    socket.on('userJoined', ({ user, message, role }) => {
+      setMessages(prevMessages => [...prevMessages, { message, sender: 'system', role }]);
+    });
 
     return () => {
       socket.off('receiveMessage');
       socket.off('userJoined');
     };
-  }, [room, user]);
+  }, [room, user, role]);
 
   const sendMessage = (e) => {
     e.preventDefault();
     if (message.trim()) {
-      socket.emit('sendMessage', { room, sender: user, message });
+      socket.emit('sendMessage', { room, sender: user, message, role });
       setMessage('');
     }
   };
@@ -61,12 +69,16 @@ const Chat = () => {
         <Box sx={{ height: '400px', overflowY: 'scroll', padding: 2, marginBottom: 2 }}>
           <List>
             {messages.map((msg, index) => (
-              <ListItem key={index} alignItems="flex-start">
+              <ListItem 
+                key={index} 
+                alignItems="flex-start"
+                sx={{ textAlign: msg.sender === user ? 'right' : 'left' }} 
+              >
                 <ListItemAvatar>
                   <Avatar>{msg.sender.charAt(0).toUpperCase()}</Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={msg.sender === 'system' ? <em>{msg.message}</em> : msg.sender}
+                  primary={msg.sender === 'system' ? <em>{msg.message}</em> : `${msg.sender} (${msg.role})`}
                   secondary={msg.sender !== 'system' && msg.message}
                 />
               </ListItem>
