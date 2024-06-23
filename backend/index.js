@@ -6,6 +6,21 @@ require("./models/db");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+//socket
+const http = require('http');
+const socketIo = require('socket.io');
+const { handleSocketConnection } = require('./controllers/Chat');
+
+const server = http.createServer(app);
+const io = socketIo(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"]
+  }
+});
+
+io.on('connection', (socket) => handleSocketConnection(socket, io));
+
 app.use(express.json());
 app.use(cors());
 
@@ -33,6 +48,6 @@ app.use('/courses', courseRouter);
 // Handles any other endpoints [unassigned - endpoints]
 app.use("*", (req, res) => res.status(404).json("NO content at this path"));
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
 });
