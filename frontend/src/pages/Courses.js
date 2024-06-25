@@ -36,6 +36,9 @@ const Courses = () => {
       console.error('Failed to add course to My Courses:', error);
     }
   };
+  const transformImageUrl = (url) => {
+    return url.replace('/upload/', '/upload/w_300,h_300,c_fill,q_auto,f_auto/');
+  };
 
   return (
     <Container>
@@ -53,13 +56,14 @@ const Courses = () => {
                 <CardMedia
                   component="img"
                   height="300"
-                  image={`${course.teacher.imageUrl}`} 
+                  image={transformImageUrl(course.teacher.imageUrl)}
+
                   alt={course.teacher.user.name}
                 />
                 <CardContent>
                   <Typography variant="h6">{course.name}</Typography>
                   <Typography variant="body1" color="textSecondary">{course.description}</Typography>
-                  <Typography>Price: {course.price}</Typography>
+                  <Typography>Price: ${course.price}</Typography>
                   <Typography>Teacher: {course.teacher.user.name}</Typography>
                   <Typography>Grade: {course.teacher.grade.name}</Typography>
                   <Typography>Subject: {course.teacher.subject.name}</Typography>

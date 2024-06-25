@@ -18,7 +18,6 @@ const io = socketIo(server, {
     methods: ["GET", "POST"]
   }
 });
-
 io.on('connection', (socket) => handleSocketConnection(socket, io));
 
 app.use(express.json());

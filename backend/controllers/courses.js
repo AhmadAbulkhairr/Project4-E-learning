@@ -30,7 +30,7 @@ catch (err){
 }
 const createNewCourse = async (req, res) => {
     const { name, description,price } = req.body;
-
+console.log(description);
     try {
 
             const teacher = await Teacher.findOne({ user: req.token.userId });

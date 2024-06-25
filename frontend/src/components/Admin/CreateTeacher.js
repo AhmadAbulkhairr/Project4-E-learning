@@ -54,6 +54,7 @@ const CreateTeacher = () => {
               name="phoneNumber"
               value={teacher.phoneNumber}
               onChange={handleInputChange}
+              placeholder='+96278*******'
               fullWidth
               required
             />

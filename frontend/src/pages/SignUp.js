@@ -9,7 +9,7 @@ const [user, setUser] = useState({
   name: "",
   password: "",
   email: "",
-  phoneNumber:""
+  phoneNumber:"+962",
 })
 const [message, setMessage] = useState("")
 
@@ -59,6 +59,7 @@ const handleRegistered = (e) => {
           <TextField
           label="phoneNumber"
           value={user.phoneNumber}
+          placeholder='+96278*******'
           onChange={(e)=> {
             setUser (prev => ({...prev,...{phoneNumber: e.target.value}}) )}}
           fullWidth

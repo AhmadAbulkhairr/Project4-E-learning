@@ -2,6 +2,9 @@ const Grade = require("../models/GradesSchema");
 const Subject = require("../models/SubjectSchema")
 const Teacher = require("../models/TeacherSchema")
 
+const Material = require("../models/MaterialSchema")
+const Course = require("../models/CoursesSchema")
+
 // Get all grades
 const getAllGrades = async (req, res) => {
   try {
@@ -102,8 +105,20 @@ const deleteGrade = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const subjects = await Subject.deleteMany({grade:id})
-    const Teachers = await Subject.deleteMany({grade:id})
+     await Subject.deleteMany({grade:id})
+    const teachers = await Teacher.find({grade:id})
+console.log(teachers);
+   
+if (teachers && teachers.length > 0) {
+  const materialDeletePromises = teachers.map(teacher => Material.deleteMany({ teacher: teacher._id }));
+  const courseDeletePromises = teachers.map(teacher => Course.deleteMany({ teacher: teacher._id }));
+
+  await Promise.all(materialDeletePromises);
+  await Promise.all(courseDeletePromises);
+}
+
+    await Teacher.deleteMany({grade:id})
+
 
     const grade = await Grade.findByIdAndDelete(id);
     if (!grade) {

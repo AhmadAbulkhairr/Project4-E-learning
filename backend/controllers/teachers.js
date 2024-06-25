@@ -1,13 +1,18 @@
 const Teacher = require("../models/TeacherSchema");
 const User = require('../models/UserSchema')
 const Role = require("../models/RoleSchema")
+const Material = require("../models/MaterialSchema")
+const Course = require("../models/CoursesSchema")
+
 const cloudinary = require('../cloudinaryConfig'); // Path to your Cloudinary config
 
 
 const teacherRegister = async (req, res) => {
-  const { name, email, password, age,grade, subject } = req.body;
+  const { name, email, password, phoneNumber,age,grade, subject } = req.body;
 
   try {
+    console.log(name, email, password, phoneNumber,age,grade, subject);
+
     const teacherRole = await Role.findOne({ role: 'Teacher' });
     if (!teacherRole) {
       return res.status(404).json({ success: false, message: 'Teacher role not found' });
@@ -38,6 +43,7 @@ const teacherRegister = async (req, res) => {
     res.status(201).json({ success: true, message: 'Teacher registered successfully', teacher });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server Error', error: error.message });
+    console.log(error.message);
   }
 };
 
@@ -171,6 +177,10 @@ const getTeacher = async (req, res) => {
     const { id } = req.params;
   
     try {
+
+      await Material.deleteMany({teacher:id})
+      await Course.deleteMany({teacher:id})
+
       const teacher = await Teacher.findByIdAndDelete(id);
       if (!teacher) {
         return res.status(404).json({

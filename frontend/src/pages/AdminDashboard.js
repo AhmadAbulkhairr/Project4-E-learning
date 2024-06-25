@@ -21,7 +21,7 @@ const AdminDashboard = () => {
     age: '',
     grade: '',
     subject: '',
-    phoneNumber:"",
+    phoneNumber:"+962",
     image: null,
   });
 

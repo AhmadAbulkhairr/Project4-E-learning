@@ -25,10 +25,7 @@ const AddCourse = () => {
 
     try {
       setLoading(true);
-      const response = await axios.post('http://localhost:5000/courses/course', {
-        name: course.name,
-        price: course.price,
-      }, {
+      const response = await axios.post('http://localhost:5000/courses/course', course, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -38,6 +35,7 @@ const AddCourse = () => {
         setCourse({
           name: '',
           price: '',
+          description:""
         });
         setError('');
         alert('Course added successfully!');

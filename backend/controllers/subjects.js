@@ -1,5 +1,7 @@
 const Subject = require('../models/SubjectSchema');
 const Grade = require('../models/GradesSchema');
+const Teacher = require("../models/TeacherSchema")
+
 //find a way to update the array in grade too
 
 // Get all subjects
@@ -132,6 +134,17 @@ const updateSubject = async (req, res) => {
     const { id } = req.params;
   
     try {
+      const teachers = await Teacher.find({subject:id})
+
+      if (teachers && teachers.length > 0) {
+        const materialDeletePromises = teachers.map(teacher => Material.deleteMany({ teacher: teacher._id }));
+        const courseDeletePromises = teachers.map(teacher => Course.deleteMany({ teacher: teacher._id }));
+  
+        await Promise.all(materialDeletePromises);
+        await Promise.all(courseDeletePromises);
+      }
+      await Teacher.deleteMany({subject:id})
+
       const subject = await Subject.findById(id);
   
       if (!subject) {

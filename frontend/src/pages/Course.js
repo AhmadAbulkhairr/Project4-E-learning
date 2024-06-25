@@ -111,7 +111,7 @@ const Course = () => {
         <Container>
             <Typography variant="h4">{course.name}</Typography>
             <Typography variant="body1" color="textSecondary">{course.description}</Typography>
-            <Typography variant="subtitle1">Price: {course.price}</Typography>
+            <Typography variant="subtitle1">Price: ${course.price}</Typography>
             <Typography variant="subtitle1">Teacher: {course.teacher.user.name}</Typography>
             <Typography variant="subtitle1">Grade: {course.teacher.grade.name}</Typography>
             <Typography variant="subtitle1">Subject: {course.teacher.subject.name}</Typography>

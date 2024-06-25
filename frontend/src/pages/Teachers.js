@@ -31,11 +31,11 @@ const Teachers = () => {
         <Grid container spacing={4}>
           {teachers.map((teacher) => (
             <Grid item key={teacher._id} xs={12} sm={6} md={4}>
-              <Card component={Link} to={`/teachers/${teacher._id}/materials`} style={{ textDecoration: 'none' }}>
+              <Card component={Link} to={`/teachers/${teacher._id}/materials`} style={{ textDecoration: 'none' }} >
                 <CardContent>
                   <Box display="flex" alignItems="center">
                     <Avatar 
-                      src={transformImageUrl(teacher.imageUrl) || '/path/to/default/avatar.png'} 
+                      src={transformImageUrl(teacher.imageUrl)} 
                       alt={teacher.user.name} 
                       style={{ marginRight: 10, width: 60, height: 60 }}
                     />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Grid, Card, CardContent, Typography, Button, CircularProgress } from '@mui/material';
+import { Grid, Card, Container,CardContent, Typography, Button, CircularProgress } from '@mui/material';
 import CheckoutForm from '../components/CheckoutForm'; 
 
 const MyCourses = () => {
@@ -41,7 +41,7 @@ const MyCourses = () => {
   };
 
   return (
-    <div>
+    <Container>
       <h2>My Courses</h2>
       <Grid container spacing={3}>
         <Grid item xs={12} md={8}>
@@ -57,7 +57,7 @@ const MyCourses = () => {
                     <CardContent>
                       <Typography variant="h6">{course.name}</Typography>
                       <Typography variant="body1" color="textSecondary">{course.description}</Typography>
-                      <Typography>Price: {course.price}</Typography>
+                      <Typography>Price: $ {course.price}</Typography>
                       <Typography>Teacher: {course.teacher.user.name}</Typography>
                       <Typography>Grade: {course.teacher.grade.name}</Typography>
                       <Typography>Subject: {course.teacher.subject.name}</Typography>
@@ -84,7 +84,7 @@ const MyCourses = () => {
           </Card>
         </Grid>
       </Grid>
-    </div>
+    </Container>
   );
 };
 

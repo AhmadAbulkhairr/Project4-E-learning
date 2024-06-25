@@ -42,7 +42,7 @@ const [message, setMessage] = useState('');
               <CardContent>
                 <Box display="flex" alignItems="center">
                   <Avatar 
-                    src={transformImageUrl(teacher.imageUrl) || '/path/to/default/avatar.png'} 
+                    src={transformImageUrl(teacher.imageUrl)} 
                     alt={teacher.user.name} 
                     style={{ marginRight: 10, width: 60, height: 60 }}
                   />

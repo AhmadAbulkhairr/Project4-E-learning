@@ -35,7 +35,12 @@ export const router = createBrowserRouter([
       { path: 'teachers', element: <Teachers /> },
       { path: 'all-courses', element: <Courses /> },
       { path: 'all-courses/:id', element: <Course /> },
-      { path: 'chat', element: <Chat /> },
+      { path: 'chat', element: (
+        <PrivateRoute role ={["Admin",'Teacher', "Student"]} >
+<Chat />        
+</PrivateRoute>
+      )
+      },
 
       { 
         path: 'admin-dashboard', 

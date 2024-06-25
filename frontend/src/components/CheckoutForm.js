@@ -20,6 +20,7 @@ const CheckoutForm = ({ courses }) => {
     if (courses && courses.length > 0) {
       const amount = courses.reduce((acc, course) => acc + (course.price || 0), 0);
       setTotalAmount(amount);
+      console.log(amount);
     }
   }, [courses]);
 

@@ -4,6 +4,7 @@ import { Home as HomeIcon, School as SchoolIcon, Dashboard as DashboardIcon, Log
 
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
+import { LaptopChromebook } from '@mui/icons-material';
 
 const Header = () => {
   const { token, role,setToken,setRole,setUser,setUserId } = useContext(UserContext);
@@ -23,10 +24,13 @@ const Header = () => {
 return (
   <AppBar position="static" color="primary" style={{ background: '#6200ea' }}>
     <Container>
-      <Toolbar>
-        <Typography variant="h6" style={{ flexGrow: 1 }}>
-          Learno
-        </Typography>
+    <Toolbar>
+          <IconButton edge="start" color="inherit" aria-label="logo" component={Link} to="/">
+            <LaptopChromebook style={{ fontSize: 40 }} />
+          </IconButton>
+          <Typography variant="h6" style={{ flexGrow: 1, marginLeft: 10 }}>
+            Learno
+          </Typography>
         <IconButton color="inherit" component={Link} to="/">
           <HomeIcon />
         </IconButton>
