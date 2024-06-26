@@ -10,6 +10,8 @@ import omar from '../../assets/images/omar.jpg'
 import islam from '../../assets/images/islam.jpg'
 import yousef from '../../assets/images/yousef.jpg'
 import chat from '../../assets/images/chat.jpg'
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import './Home.css'; 
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
@@ -72,37 +74,28 @@ const Home = () => {
         </div>
       </Carousel>
 
-      <Box mt={5}>
-        <Typography variant="h4" gutterBottom align="center">Welcome to Learno</Typography>
-        <Typography variant="body1" align="center" paragraph>
-          Explore our wide range of courses and start learning today. Whether you're a student looking to enhance your skills or a teacher looking to share your knowledge, Learno has something for everyone.
-        </Typography>
-      </Box>
+      <Box mt={5} style={{ backgroundColor: '#f5f5f5', padding: '40px 0' }}>
+  <Container>
+    <Typography variant="h4" gutterBottom align="center">Welcome to Learno</Typography>
+    <Typography variant="body1" align="center" paragraph>
+      Explore our wide range of courses and start learning today. Whether you're a student looking to enhance your skills or a teacher looking to share your knowledge, Learno has something for everyone.
+    </Typography>
+  </Container>
+</Box>
+<Grid container spacing={4} justifyContent="center" style={{ marginTop: '20px' }}>
+  <Grid item>
+    <Button variant="contained" color="primary" component={Link} to="/all-courses">
+      View Courses
+    </Button>
+  </Grid>
+  <Grid item>
+    <Button variant="contained" color="primary" component={Link} to="/signup">
+      Get Started
+    </Button>
+  </Grid>
+</Grid>
 
-      <Grid container spacing={4} justifyContent="center">
-        <Grid item>
-          <Button variant="contained" color="primary" component={Link} to="/all-courses">
-            View Courses
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button variant="contained" color="primary" component={Link} to="/signup">
-            Get Started
-          </Button>
-        </Grid>
-      </Grid>
 
-      <Box mt={5}>
-        <Typography variant="h4" gutterBottom>
-          <QuestionAnswerIcon fontSize="large" style={{ marginRight: 10 }} /> Frequently Asked Questions
-        </Typography>
-        {faqs.map((faq, index) => (
-          <Paper key={index} elevation={3} style={{ padding: 20, margin: '20px 0' }}>
-            <Typography variant="h6" style={{ fontWeight: 600 }}>{faq.question}</Typography>
-            <Typography variant="body1" color="textSecondary">{faq.answer}</Typography>
-          </Paper>
-        ))}
-      </Box>
      
       <Box mt={5}>
         <Typography variant="h4" gutterBottom align="center">
@@ -130,6 +123,18 @@ const Home = () => {
 
 
 
+      <Box mt={5} mb={5}>
+        <Typography variant="h4" gutterBottom align="center">
+          Learno Office Location
+        </Typography>
+        <MapComponent />
+      </Box>
+      <Box mt={5} mb={5} textAlign="center">
+        <Button variant="contained" color="primary" component={Link} to="/contact">
+          Contact Us
+        </Button>
+      </Box>
+      
       <Box mt={5}>
         <Typography variant="h4" gutterBottom>
           <RateReviewIcon fontSize="large" style={{ marginRight: 10 }} /> Student Reviews
@@ -148,17 +153,22 @@ const Home = () => {
         </Grid>
       </Box>
 
-      <Box mt={5} mb={5}>
-        <Typography variant="h4" gutterBottom align="center">
-          Learno Office Location
-        </Typography>
-        <MapComponent />
-      </Box>
-      <Box mt={5} mb={5} textAlign="center">
-        <Button variant="contained" color="primary" component={Link} to="/contact">
-          Contact Us
-        </Button>
-      </Box>
+      <Box mt={5}>
+  <Typography variant="h4" gutterBottom>
+    <QuestionAnswerIcon fontSize="large" style={{ marginRight: 10 }} /> Frequently Asked Questions
+  </Typography>
+  {faqs.map((faq, index) => (
+    <Accordion key={index}>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography variant="h6" style={{ fontWeight: 600 }}>{faq.question}</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Typography variant="body1" color="textSecondary">{faq.answer}</Typography>
+      </AccordionDetails>
+    </Accordion>
+  ))}
+</Box>
+     
     </Container>
   );
 };

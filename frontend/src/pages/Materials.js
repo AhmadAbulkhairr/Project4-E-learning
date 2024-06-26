@@ -49,6 +49,11 @@ const Materials = () => {
         );
     }
 
+    const transformImageUrl = (url) => {
+        return url.replace('/upload/', '/upload/w_300,h_300,c_fill,q_auto,f_auto/');
+      };
+    
+
     return (
         <Container>
             <Grid container spacing={2}>
@@ -57,7 +62,9 @@ const Materials = () => {
                         <Card>
                             <CardContent>
                                 <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
-                                    <Avatar alt="Teacher Image" src={material.teacher?.imageUrl} style={{ width: 100, height: 100 }} />
+                                    <Avatar alt="Teacher Image" 
+                    src={transformImageUrl(material.teacher?.imageUrl)} 
+                    style={{ width: 100, height: 100 }} />
                                 </Box>
                                 {material.contentType === 'document' ? (
 <Paper elevation={3} style={{ padding: 10 }}>

@@ -7,7 +7,7 @@ import { UserContext } from '../App';
 import { LaptopChromebook } from '@mui/icons-material';
 
 const Header = () => {
-  const { token, role,setToken,setRole,setUser,setUserId } = useContext(UserContext);
+  const { token, role,setToken,setRole,setUser,user,setUserId } = useContext(UserContext);
   const navigate = useNavigate();
 
   const signOut = () => {
@@ -68,6 +68,9 @@ return (
               <Typography marginLeft={0.5} variant='h6' >
 My Courses            </Typography>    
             </IconButton>)}
+            <Typography variant='h6' style={{ marginLeft: 15, marginRight: 15, fontFamily: 'Lobster, cursive' }}>
+  {user} 
+</Typography>
             <IconButton color="inherit" onClick={signOut}>
               <LogoutIcon />
             </IconButton>
