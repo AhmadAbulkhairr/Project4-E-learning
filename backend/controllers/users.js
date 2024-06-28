@@ -61,7 +61,7 @@ const register = (req, res) => {
         password,phoneNumber
         } = req.body;
 
-        if (!name || !email || !password ) {
+        if (!name || !email || !password || !phoneNumber ) {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required",

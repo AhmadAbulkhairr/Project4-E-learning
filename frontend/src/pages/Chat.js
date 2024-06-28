@@ -27,6 +27,7 @@ const Chat = () => {
   const [room, setRoom] = useState('general'); 
 
   useEffect(() => {
+
     const fetchChatHistory = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/chat/history/${room}`);
@@ -38,13 +39,22 @@ const Chat = () => {
 
     fetchChatHistory();
 
+
+   
+  }, [room, user, role]);
+
+  useEffect(() => {
     socket.emit('joinRoom', { room, user, role });
+
+   
+
 
     socket.on('receiveMessage', ({ message, sender, role }) => {
       setMessages(prevMessages => [...prevMessages, { message, sender, role }]);
     });
 
     socket.on('userJoined', ({ user, message, role }) => {
+      console.log(message);
       setMessages(prevMessages => [...prevMessages, { message, sender: 'system', role }]);
     });
 
