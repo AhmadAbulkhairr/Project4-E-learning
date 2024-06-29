@@ -8,7 +8,7 @@ const Grades = () => {
   const [grades, setGrades] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/grades/allGrades')
+    axios.get(`${process.env.REACT_APP_API_URL}/grades/allGrades`)
       .then((result) => {
         setGrades(result.data.grades);
       })

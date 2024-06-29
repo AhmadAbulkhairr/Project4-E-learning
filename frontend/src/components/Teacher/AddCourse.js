@@ -25,7 +25,7 @@ const AddCourse = () => {
 
     try {
       setLoading(true);
-      const response = await axios.post('http://localhost:5000/courses/course', course, {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/courses/course`, course, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

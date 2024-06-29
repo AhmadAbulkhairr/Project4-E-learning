@@ -25,7 +25,7 @@ const SignIn = () => {
 
     e.preventDefault();
 
-    axios.post('http://localhost:5000/users/login', login).then((result)=>{
+    axios.post(`${process.env.REACT_APP_API_URL}/users/login`, login).then((result)=>{
       localStorage.setItem('id', result.data.userID);
       console.log(result.data.userID); 
       setUserId(localStorage.getItem('id'))
@@ -50,7 +50,7 @@ const SignIn = () => {
 const handlePasswordRecovery = (e) => {
   e.preventDefault();
 
-  axios.post('http://localhost:5000/password/password-recovery', { email: recoveryEmail })
+  axios.post(`${process.env.REACT_APP_API_URL}/password/password-recovery`, { email: recoveryEmail })
     .then((response) => {
       setRecoveryMessage(response.data.message);
     })
@@ -63,7 +63,7 @@ const handlePasswordRecovery = (e) => {
 const handleResetPassword = (e) => {
   e.preventDefault();
 
-  axios.post('http://localhost:5000/password/reset-password', {
+  axios.post(`${process.env.REACT_APP_API_URL}/password/reset-password`, {
     email: recoveryEmail,
     verificationCode,
     newPassword,

@@ -8,7 +8,7 @@ const Teachers = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/teachers/allTeachers')
+    axios.get(`${process.env.REACT_APP_API_URL}/teachers/allTeachers`)
       .then((result) => {
         setTeachers(result.data.allTeachers);
       })

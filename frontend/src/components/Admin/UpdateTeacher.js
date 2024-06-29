@@ -18,7 +18,7 @@ const UpdateTeacher = () => {
   const { setSubjects, setMessage, subjects, grades } = useContext(AdminContext);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/teachers/allTeachers')
+    axios.get(`${process.env.REACT_APP_API_URL}/teachers/allTeachers`)
       .then(response => {
         setTeachers(response.data.allTeachers);
       })
@@ -34,7 +34,7 @@ const UpdateTeacher = () => {
       [name]: value,
     }));
     if (name === 'grade') {
-      axios.get(`http://localhost:5000/subjects/allSubjects/${value}`)
+      axios.get(`${process.env.REACT_APP_API_URL}/subjects/allSubjects/${value}`)
         .then(response => {
           setSubjectsForUpdating(response.data.subjects);
         })
@@ -60,7 +60,7 @@ const UpdateTeacher = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:5000/teachers/Teacher/${selectedTeacherId}`,
+        `${process.env.REACT_APP_API_URL}/teachers/Teacher/${selectedTeacherId}`,
         formData,
         {
           headers: {

@@ -11,7 +11,7 @@ const [deletedTeacher, setDeletedTeacher] = useState("")
         subjects,grades} = useContext(AdminContext)
     
 const handleDeleteTeacherGrade =  (e) => {
-    axios.get(`http://localhost:5000/subjects/allSubjects/${e.target.value}`)
+    axios.get(`${process.env.REACT_APP_API_URL}/subjects/allSubjects/${e.target.value}`)
           .then(response => {
             console.log(response.data.subjects);
             setSubjects(response.data.subjects);
@@ -23,7 +23,7 @@ console.log(error);          });
 
           
 const handleDeleteTeacherSubject =  (e) => {
-    axios.get(`http://localhost:5000/teachers/allTeachers/${e.target.value}`)
+    axios.get(`${process.env.REACT_APP_API_URL}/teachers/allTeachers/${e.target.value}`)
           .then(response => {
             setTeachers(response.data.allTeachers);
           })
@@ -36,7 +36,7 @@ const handleDeleteTeacherSubject =  (e) => {
       e.preventDefault();
       try {
         const response = await axios.delete(
-          `http://localhost:5000/teachers/Teacher/${deletedTeacher}`,
+          `${process.env.REACT_APP_API_URL}/teachers/Teacher/${deletedTeacher}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,

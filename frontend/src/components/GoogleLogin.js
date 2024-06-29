@@ -14,7 +14,7 @@ const GoogleLoginCom = () => {
     console.log(response.credential);
 
     try {
-      const res = await axios.post('http://localhost:5000/users/google-login', {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/users/google-login`, {
         token: response.credential,
       });
       localStorage.setItem('id', res.data.userID);

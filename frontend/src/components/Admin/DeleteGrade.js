@@ -10,7 +10,7 @@ const [deletedGrade, setDeletedGrade] = useState("")
     e.preventDefault();
     try {
       const response = await axios.delete(
-        `http://localhost:5000/grades/deleteGrade/${deletedGrade}`,
+        `${process.env.REACT_APP_API_URL}/grades/deleteGrade/${deletedGrade}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,

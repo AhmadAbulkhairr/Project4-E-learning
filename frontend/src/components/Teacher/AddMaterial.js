@@ -36,7 +36,7 @@ const AddMaterial = ({message,setMessage}) => {
     
         try {
           const response = await axios.post(
-            'http://localhost:5000/materials/addMaterial',
+            `${process.env.REACT_APP_API_URL}/materials/addMaterial`,
             formData,
             {
               headers: {

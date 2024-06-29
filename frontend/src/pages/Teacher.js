@@ -13,7 +13,7 @@ const [teachers, setTeachers] = useState([])
 const [message, setMessage] = useState('');
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/teachers/allTeachers/${id}`).then((result)=>{
+        axios.get(`${process.env.REACT_APP_API_URL}/teachers/allTeachers/${id}`).then((result)=>{
             setTeachers(result.data.allTeachers)
         })
       .catch((err) => {

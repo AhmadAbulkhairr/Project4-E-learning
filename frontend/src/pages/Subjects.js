@@ -14,7 +14,7 @@ const Subjects = () => {
 
     
     useEffect(() => {
-        axios.get(`http://localhost:5000/subjects/allSubjects/${id}`).then((result)=>{
+        axios.get(`${process.env.REACT_APP_API_URL}/subjects/allSubjects/${id}`).then((result)=>{
             console.log(result.data.sub);
             setSubjects(result.data.subjects)
         })

@@ -22,7 +22,7 @@ const Materials = () => {
 
     useEffect(() => {
         setLoading(true);
-        axios.get(`http://localhost:5000/materials/allMaterials/${id}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/materials/allMaterials/${id}`)
             .then((result) => {
                 setMaterials(result.data.allMaterials);
                 setLoading(false);

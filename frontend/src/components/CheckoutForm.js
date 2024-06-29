@@ -42,7 +42,7 @@ const CheckoutForm = ({ courses }) => {
     setLoading(true);
     try {
 
-      const { data } = await axios.post('http://localhost:5000/create-payment-intent', {
+      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/create-payment-intent`, {
         amount: totalAmount,
         currency: 'usd', 
               });

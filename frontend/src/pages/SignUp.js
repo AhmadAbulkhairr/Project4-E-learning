@@ -22,7 +22,7 @@ const handleRegistered = (e) => {
     
   e.preventDefault();
 
-  axios.post('http://localhost:5000/users/register', user).then((result)=>{
+  axios.post(`${process.env.REACT_APP_API_URL}/users/register`, user).then((result)=>{
     console.log(result.data.message);
     setMessage(result.data.message)
   }).catch((error)=>{

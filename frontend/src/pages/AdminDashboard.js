@@ -33,7 +33,7 @@ const AdminDashboard = () => {
   const [deletedSubject, setDeletedSubject] = useState("");
 
 const handleDeleteSubjectGrade =  (e) => {
-  axios.get(`http://localhost:5000/subjects/allSubjects/${e.target.value}`)
+  axios.get(`${process.env.REACT_APP_API_URL}/subjects/allSubjects/${e.target.value}`)
         .then(response => {
           console.log("result grade:",response.data.subjects);
           setSubjects(response.data.subjects);
@@ -47,7 +47,7 @@ const handleDeleteSubjectGrade =  (e) => {
     e.preventDefault();
     try {
       const response = await axios.delete(
-        `http://localhost:5000/subjects/deleteSubject/${deletedSubject}`,
+        `${process.env.REACT_APP_API_URL}/subjects/deleteSubject/${deletedSubject}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -62,7 +62,7 @@ const handleDeleteSubjectGrade =  (e) => {
 
   //getting all grades in drop list
   useEffect(() => {
-    axios.get('http://localhost:5000/Grades/allGrades')
+    axios.get(`${process.env.REACT_APP_API_URL}/Grades/allGrades`)
       .then(response => {
         setGrades(response.data.grades);
       })
@@ -77,7 +77,7 @@ const handleDeleteSubjectGrade =  (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:5000/grades/addGrade',
+        `${process.env.REACT_APP_API_URL}/grades/addGrade`,
         { name: newGrade },
         {
           headers: {
@@ -97,7 +97,7 @@ const handleDeleteSubjectGrade =  (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:5000/subjects/addSubject',
+        `${process.env.REACT_APP_API_URL}/subjects/addSubject`,
         newSubject,
         {
           headers: {
@@ -128,7 +128,7 @@ const handleDeleteSubjectGrade =  (e) => {
       [name]: value,
     }));
     if (name === 'grade') {
-      axios.get(`http://localhost:5000/subjects/allSubjects/${value}`)
+      axios.get(`${process.env.REACT_APP_API_URL}/subjects/allSubjects/${value}`)
         .then(response => {
           setSubjects(response.data.subjects);
         })
@@ -160,7 +160,7 @@ const handleDeleteSubjectGrade =  (e) => {
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/teachers/register',
+        `${process.env.REACT_APP_API_URL}/teachers/register`,
         formData,
         {
           headers: {

@@ -18,7 +18,7 @@ import {
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
-const socket = io('http://localhost:5000');
+const socket = io(`${process.env.REACT_APP_API_URL}`);
 
 const Chat = () => {
   const { user, role } = useContext(UserContext);
@@ -30,7 +30,7 @@ const Chat = () => {
 
     const fetchChatHistory = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/chat/history/${room}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/chat/history/${room}`);
         setMessages(response.data);
       } catch (error) {
         console.error('Error fetching chat history:', error);

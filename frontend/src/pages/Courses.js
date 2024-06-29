@@ -11,7 +11,7 @@ const Courses = () => {
   const {token} = useContext(UserContext)
 
   useEffect(() => {
-    axios.get('http://localhost:5000/courses/courses')
+    axios.get(`${process.env.REACT_APP_API_URL}/courses/courses`)
       .then((response) => {
         console.log(response.data.result);
         setCourses(response.data.result);
@@ -25,7 +25,7 @@ const Courses = () => {
 
   const addToMyCourses = async (courseId) => {
     try {
-      await axios.get(`http://localhost:5000/courses/addCourse/${courseId}`,
+      await axios.get(`${process.env.REACT_APP_API_URL}/courses/addCourse/${courseId}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,

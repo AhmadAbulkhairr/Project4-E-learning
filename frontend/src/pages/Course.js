@@ -34,7 +34,7 @@ const Course = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/courses/course/${id}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/courses/course/${id}`)
             .then((result) => {
                 setCourse(result.data.result);
                 setLoading(false);
@@ -51,7 +51,7 @@ const Course = () => {
 
     const createNewReview = async () => {
         try {
-            await axios.post(`http://localhost:5000/courses/review/${id}`, review, {
+            await axios.post(`${process.env.REACT_APP_API_URL}/courses/review/${id}`, review, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -80,7 +80,7 @@ const Course = () => {
 
     const addToMyCourses = async (courseId) => {
         try {
-          await axios.get(`http://localhost:5000/courses/addCourse/${courseId}`,
+          await axios.get(`${process.env.REACT_APP_API_URL}/courses/addCourse/${courseId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -96,7 +96,7 @@ const Course = () => {
       const DeleteReview = async (course,review) => {
     
         try {
-            await axios.put(`http://localhost:5000/courses/review/${course}`, {review}, {
+            await axios.put(`${process.env.REACT_APP_API_URL}/courses/review/${course}`, {review}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

@@ -8,7 +8,7 @@ const MyCourses = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/courses/coursesUser/`,
+    axios.get(`${process.env.REACT_APP_API_URL}/courses/coursesUser/`,
     {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -27,7 +27,7 @@ const MyCourses = () => {
 
   const removeFromMyCourses = async (courseId) => {
     try {
-      await axios.delete(`http://localhost:5000/courses/removeCourse/${courseId}`,
+      await axios.delete(`${process.env.REACT_APP_API_URL}/courses/removeCourse/${courseId}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
