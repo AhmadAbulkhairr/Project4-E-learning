@@ -14,7 +14,7 @@ const { handleSocketConnection } = require('./controllers/Chat');
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: ["http://localhost:3000","https://667fd9d573781d20acb395fd--learnolearning.netlify.app/" ,"https://learnolearning.netlify.app"],
+    origin: '*',
     methods: ["GET", "POST"]
   }
 });
@@ -23,17 +23,11 @@ io.on('connection', (socket) => handleSocketConnection(socket, io));
 app.use(express.json());
 
 // CORS configuration
-const allowedOrigins = ["http://localhost:3000","https://667fd9d573781d20acb395fd--learnolearning.netlify.app/", "https://learnolearning.netlify.app"];
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: '*', // Allows any origin
   credentials: true
 }));
+
 
 app.use("/password", require("./routes/recovery"));
 
