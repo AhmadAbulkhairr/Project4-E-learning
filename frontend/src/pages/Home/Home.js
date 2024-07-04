@@ -47,7 +47,7 @@ const Home = () => {
           <Box p={3} textAlign="center" style={{ background: 'rgba(0, 0, 0, 0.5)', color: 'white' }}>
             <Typography variant="h3" gutterBottom>Learno</Typography>
             <Typography variant="h6" gutterBottom>Start your journey with us</Typography>
-            <Button variant="contained" color="secondary" component={Link} to="/login">
+            <Button variant="contained" color="secondary" component={Link} to="/signin">
               Login
             </Button>
           </Box>

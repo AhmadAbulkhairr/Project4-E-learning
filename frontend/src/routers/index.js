@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import Main from '../layouts/Main';
 import Home from '../pages/Home/Home';
-import SignIn from '../pages/SignIn';
+import SignIn from '../pages/Signin';
 import SignUp from '../pages/SignUp';
 import Grades from '../pages/Grades';
 import AdminDashboard from '../pages/AdminDashboard';

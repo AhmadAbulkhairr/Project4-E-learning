@@ -5,7 +5,7 @@ import { UserContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import GoogleLoginCom from '../components/GoogleLogin';
 
-const SignIn = () => {
+const Signin = () => {
   const {setRole,setToken,setUser,setUserId} = useContext(UserContext)
 
   const [login, setLogin] = useState({email:"",password:""})
@@ -147,5 +147,5 @@ const handleResetPassword = (e) => {
   );
 }
 
-export default SignIn
+export default Signin
 
