@@ -8,12 +8,12 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 console.log(client);
 const googleLogin = async (req, res) => {
   const { token } = req.body;
+  console.log(token);
   try {
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
     });
-    console.log(ticket);
     const { name, email } = ticket.getPayload();
 
     let user = await usersModel.findOne({ email });
@@ -25,7 +25,6 @@ const googleLogin = async (req, res) => {
 
       user = new usersModel({ name, email, role: studentRole._id });
       await user.save();
-      console.log(user);
 
     }
 console.log(user);
